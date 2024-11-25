@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller {
     public function index() {
-        return view('auth.register');
+        return view('user.register');
     }
 
     public function store(RegisterRequest $request) {

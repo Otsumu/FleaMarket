@@ -18,11 +18,14 @@ class ItemController extends Controller
 
     public function detail($item_id) {
         $item = Item::findOrFail($item_id);
-        $reviews = Review::where('item_id',$item_id)->with('user')->get();
+        $reviews = Review::where('item_id', $item_id)->with('user')->get();
         $commentsCount = $reviews->count();
-        $user = Auth::user();
 
-        return view('item.detail', compact('item','reviews','commentsCount','user'));
+        $user = Auth::user();
+        $userName = $user ? $user->name : '';
+        $userImage = $user && $user->image ? asset('storage/images/' . $user->image) : asset('images/default-profile.png');
+
+        return view('item.detail', compact('item', 'reviews', 'commentsCount', 'userName', 'userImage'));
     }
 
     public function search(Request $request) {
@@ -58,5 +61,10 @@ class ItemController extends Controller
 
     public function sell() {
         return view('item.sell');
+    }
+
+    public function purchase($item_id) {
+        $item = Item::firstOrNew(['id' => $item_id]);
+        return view('item.purchase', compact('item'));
     }
 }

@@ -56,8 +56,8 @@
         <div class="comment-info">
             <h3><strong>コメント ({{ $commentsCount }}) </strong></h3>
             <div class="profile-wrapper">
-                <img id="profileImagePreview" src="{{ auth()->user()->image }}" alt="Profile Image" class="profile-image">
-                <h4 class="profile-name">{{ auth()->user()->name }}</h4>
+                <img id="profileImagePreview" src="{{ $userImage }}" alt="Profile Image" class="profile-image">
+                <h4 class="profile-name">{{ $userName }}</h4>
             </div>
             @foreach ($reviews as $review)
                 <p>{{ $review->content }} - {{ $review->user->name }}</p>

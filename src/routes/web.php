@@ -17,11 +17,11 @@ use App\Http\Controllers\ItemController;
 |
 */
 
-Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('user.login');
-Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login');
+Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('auth.login');
 
-Route::get('register', [RegisteredUserController::class, 'create'])->name('user.register');
-Route::post('register', [RegisteredUserController::class, 'store'])->name('register');
+Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('register', [RegisteredUserController::class, 'store'])->name('auth.register');
 
 Route::get('/', [ItemController::class,'index'])->name('item.index');
 Route::get('/{item_id}', [ItemController::class, 'detail'])->name('item.detail');
@@ -37,4 +37,5 @@ Route::prefix('items')->middleware('auth')->group(function () {
     Route::get('/image-upload', [ItemController::class, 'showImageUploadForm'])->name('image_upload_form');
     Route::post('/save-image', [ItemController::class, 'saveImageFromUrl'])->name('save_image');
     Route::get('/sell', [ItemController::class, 'sell'])->name('item.sell');
+    Route::get('/item/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase');
 });

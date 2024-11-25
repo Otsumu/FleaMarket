@@ -20,7 +20,7 @@
                     <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer;">ログアウト</button>
                 </form>
             @else
-                <a href="{{ route('user.login') }}">ログイン</a>
+                <a href="{{ route('login') }}">ログイン</a>
             @endif
         </li>
         <li><a href="{{ route('user.myPage') }}">マイページ</a></li>
