@@ -6,7 +6,7 @@
 
 @section('content')
 <main>
-    <form class="auth-form" action="{{ route('auth.login') }}" method="post">
+    <form class="auth-form" action="{{ route('login') }}" method="post">
         @csrf
         <div class="auth-item">
             <h2 class="auth-title">ログイン</h2>
@@ -44,7 +44,7 @@
                     <button type="submit">ログインする</button>
                 </div>
                 <div class="login-link">
-                    <a href="{{ route('auth.register') }}">会員登録はこちら</a>
+                    <a href="{{ route('user.register') }}">会員登録はこちら</a>
                 </div>
             </div>
 

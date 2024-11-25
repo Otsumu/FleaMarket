@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Review;
 
@@ -54,5 +54,9 @@ class ItemController extends Controller
         }
 
         return response()->json(['error' => '無効な画像URLまたは画像の取得に失敗しました。'], 400);
+    }
+
+    public function sell() {
+        return view('item.sell');
     }
 }
