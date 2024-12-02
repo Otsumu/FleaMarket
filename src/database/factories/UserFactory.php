@@ -11,8 +11,10 @@ class UserFactory extends Factory
 
     public function definition()
     {
+        $faker = \Faker\Factory::create('ja_JP');
+
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->lastName() . ' ' . $this->faker->firstName(),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => bcrypt('password'),
             'address' => $this->faker->address(),

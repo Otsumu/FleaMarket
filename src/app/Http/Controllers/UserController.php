@@ -17,8 +17,7 @@ class UserController extends Controller {
     }
 
     public function store(RegisterRequest $request) {
-        $validatedData = $request->validated();
-
+        $validatedData = $request->validate($request->rules(), $request->messages());
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
@@ -27,11 +26,14 @@ class UserController extends Controller {
 
         auth()->login($user);
         event(new Registered($user));
-        $request->session()->forget('register_data');
 
         Mail::to($user->email)->send(new RegisterConfirmMail($user));
 
         return redirect()->route('user.editProfile');
+    }
+
+    public function edit() {
+        return view('user.editProfile');
     }
 
     public function update(AddressRequest $request) {
@@ -55,10 +57,6 @@ class UserController extends Controller {
         $user->save();
 
         return redirect()->back()->with('success', '画像が保存されました。');
-    }
-
-    public function edit() {
-        return view('user.editProfile');
     }
 
     public function myPage() {

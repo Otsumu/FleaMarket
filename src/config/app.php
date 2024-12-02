@@ -106,7 +106,7 @@ return [
     |
     */
 
-    'faker_locale' => 'ja_JA',
+    'faker_locale' => 'ja_JP',
 
     /*
     |--------------------------------------------------------------------------
@@ -175,7 +175,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
-
     ],
 
     /*

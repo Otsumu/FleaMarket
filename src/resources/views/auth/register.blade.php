@@ -14,7 +14,7 @@
             <div class="input-group">
                 <div style="display: flex; align-items: center;">
                     <h3 class="title" style="margin: 0;">ユーザー名</h3>
-                    <p class="auth-form__error-message">
+                    <p class="auth-form__error-message" style="margin-top: 10px;">
                         @error('name')
                             {{ $message }}
                         @enderror
@@ -28,7 +28,7 @@
             <div class="input-group">
                 <div style="display: flex; align-items: center;">
                     <h3 class="title" style="margin: 0;">メールアドレス</h3>
-                    <p class="auth-form__error-message">
+                    <p class="auth-form__error-message" style="margin-top: 10px;">
                         @error('email')
                             {{ $message }}
                         @enderror
@@ -42,7 +42,7 @@
             <div class="input-group">
                 <div style="display: flex; align-items: center;">
                     <h3 class="title" style="margin: 0;">パスワード</h3>
-                    <p class="auth-form__error-message">
+                    <p class="auth-form__error-message" style="margin-top: 10px;">
                         @error('password')
                             {{ $message }}
                         @enderror
@@ -56,7 +56,7 @@
             <div class="input-group">
                 <div style="display: flex; align-items: center;">
                     <h3 class="title" style="margin: 0;">確認パスワード</h3>
-                    <p class="auth-form__error-message">
+                    <p class="auth-form__error-message" style="margin-top: 10px;">
                         @error('password_confirmation')
                             {{ $message }}
                         @enderror
