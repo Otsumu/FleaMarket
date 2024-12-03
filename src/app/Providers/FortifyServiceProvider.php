@@ -8,6 +8,9 @@ use Laravel\Fortify\Fortify;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Support\Facades\Cache;
 use App\Actions\Fortify\CreateNewUser;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -44,6 +47,20 @@ class FortifyServiceProvider extends ServiceProvider
 
         $limiter->for('login', function (Request $request) {
             return Limit::perMinute(10);
+        });
+
+        Fortify::authenticateUsing(function (Request $request) {
+            $credentials = $request->only('email', 'password');
+
+            if (Auth::attempt($credentials)) {
+                return Auth::user();
+            }
+
+            if (!Auth::validate($credentials)) {
+                Session::flash('error', 'ログイン情報が登録されていません');
+            }
+
+            return null;
         });
     }
 }

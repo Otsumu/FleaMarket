@@ -25,14 +25,13 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => 'required',
-            'password' => 'required|confirmed',
+            'password' => 'required',
         ];
     }
     public function messages() {
         return [
             'email.required' => 'メールアドレスを入力してください',
             'password.required' => 'パスワードを入力してください',
-            'password.confirmed' => 'ログイン情報が登録されていません',
         ];
     }
 }
