@@ -46,6 +46,9 @@
                         @error('password')
                             {{ $message }}
                         @enderror
+                        @if (session('error'))
+                            {{ session('error') }}
+                        @endif
                     </p>
                 </div>
                 <div class="input-tag">
@@ -60,6 +63,9 @@
                         @error('password_confirmation')
                             {{ $message }}
                         @enderror
+                        @if (session('error'))
+                            {{ session('error') }}
+                        @endif
                     </p>
                 </div>
                 <div class="input-tag">

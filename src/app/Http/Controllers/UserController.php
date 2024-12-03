@@ -36,9 +36,17 @@ class UserController extends Controller {
         return view('user.editProfile');
     }
 
-    public function update(AddressRequest $request) {
-        $validatedData = $request->validated();
+    public function update(AddressRequest $addressRequest, ProfileRequest $profileRequest) {
+        $validatedData = $addressRequest->validated();
+        $profileValidatedData = $profileRequest->validated();
+
         $user = auth()->user();
+
+        if ($profileRequest->hasFile('image')) {
+            $imagePath = $profileRequest->file('image')->store('images', 'public');
+            session()->flash('image', $imagePath);
+        }
+
         $user ->update([
             'name' => $validatedData['name'],
             'postcode' => $validatedData['postcode'],
@@ -46,17 +54,19 @@ class UserController extends Controller {
             'build' => $validatedData['build'] ?? '',
         ]);
 
-        return redirect()->route('item.index')->with('success', 'プロフィールが更新されました');
+        return redirect('/')->with('success', 'プロフィールが更新されました');
     }
 
     public function saveImage(ProfileRequest $request) {
-        $image = $request->file('image');
-        $imagePath = $image->store('images', 'public');
-        $user = auth()->user();
-        $user->image = $imagePath;
-        $user->save();
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            session(['image' => $imagePath]);
+            $user = auth()->user();
+            $user->image = $imagePath;
+            $user->save();
+        }
 
-        return redirect()->back()->with('success', '画像が保存されました。');
+        return response()->json(['success' => true]);
     }
 
     public function myPage() {

@@ -26,17 +26,16 @@
         @csrf
         @method('patch')
             <h2 class="auth-title">プロフィール設定</h2>
-
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
             <div class="image-group">
                 <div class="image-container">
-                    <img id="profileImagePreview" src="{{ auth()->user()->image ? asset('storage/' . auth()->user()->image) : asset('storage/images/default.jpg') }}" 
-                        alt="Profile Image" class="profile-image">
+                    <img id="profileImagePreview"
+                        src="{{ session('image') ? asset('storage/' . session('image')) : (auth()->user()->image ? asset('storage/' . auth()->user()->image) : '') }}" 
+                        class="profile-image">
+                    <p class="auth-form__error-message" style="margin-top: 10px;">
+                        @error('image')
+                            {{ $message }}
+                        @enderror
+                    </p>
                 </div>
                 <input type="file" name="image" accept="image/*" style="display: none;" id="imageInput">
                 <button type="button" class="select-image-button" onclick="document.getElementById('imageInput').click();">画像を選択する</button>
@@ -60,7 +59,7 @@
                 <div class="input-group">
                     <div style="display: flex; align-items: center;">
                         <h3 class="title" style="margin: 0;">郵便番号</h3>
-                            <p class="auth-form__error-message">
+                            <p class="auth-form__error-message" style="margin-top: 10px;">
                                 @error('postcode')
                                     {{ $message }}
                                 @enderror
@@ -74,7 +73,7 @@
                 <div class="input-group">
                     <div style="display: flex; align-items: center;">
                         <h3 class="title" style="margin: 0;">住所</h3>
-                            <p class="auth-form__error-message">
+                            <p class="auth-form__error-message" style="margin-top: 10px;">
                                 @error('address')
                                     {{ $message }}
                                 @enderror
@@ -88,7 +87,7 @@
                 <div class="input-group">
                     <div style="display: flex; align-items: center;">
                         <h3 class="title" style="margin: 0;">建物名</h3>
-                            <p class="auth-form__error-message">
+                            <p class="auth-form__error-message" style="margin-top: 10px;">
                                 @error('build')
                                     {{ $message }}
                                 @enderror

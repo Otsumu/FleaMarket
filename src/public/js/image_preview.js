@@ -6,5 +6,16 @@ document.getElementById('imageInput').addEventListener('change', function(event)
             document.getElementById('profileImagePreview').src = e.target.result;
         };
         reader.readAsDataURL(file);
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        fetch('/user/saveImage', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: formData
+        });
     }
 });
