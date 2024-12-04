@@ -110,8 +110,35 @@ h2, h3 {
     display: flex;
     align-items: center;
     font-size: 30px;
-    gap: 20px;
+    gap: 30px;
     padding: 20px;
+}
+
+#favoriteButton,
+#commentButton {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    font-size: 32px;
+}
+
+#favoriteCount {
+    position: absolute;
+    margin: 60px 0 0 10px;
+    font-size: 16px;
+}
+
+#commentCount {
+    position: absolute;
+    margin: 60px 0 0 75px;
+    font-size: 16px;
+}
+
+#favoriteButton:hover,
+#commentButton:hover {
+    color: #f39c12;
 }
 
 .clickable {
@@ -122,6 +149,7 @@ h2, h3 {
     display: inline-block;
     width: 100%;
     padding: 10px;
+    margin-top: 15px;
     background-color: rgb(238, 3, 66);
     color: white;
     font-size: 20px;
@@ -149,6 +177,14 @@ h2, h3 {
 .second-info p {
     margin-top: 20px;
     margin-bottom: 10px;
+}
+
+.category-box {
+    border: 1px solid lightgray;
+    margin-left: 20px;
+    padding: 6px 20px;
+    border-radius: 20px;
+    background-color: lightgray;
 }
 
 .comment-info {
@@ -183,10 +219,13 @@ h2, h3 {
 
 textarea {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
+    padding-left: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: lightgray;
+    text-align: left;
+    font-size: 14px;
 }
 
 .comment {

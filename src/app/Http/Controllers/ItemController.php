@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CommentRequest;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
-use App\Models\Review;
+use App\Models\Comment;
+use App\Models\Favorite;
 
 class ItemController extends Controller
 {
@@ -18,14 +20,28 @@ class ItemController extends Controller
 
     public function detail($item_id) {
         $item = Item::findOrFail($item_id);
-        $reviews = Review::where('item_id', $item_id)->with('user')->get();
-        $commentsCount = $reviews->count();
+        $favorites = Favorite::where('item_id', $item_id)->get();
+        $favoritesCount = $favorites->count();
+        $comments = Comment::where('item_id', $item_id)->get();
+        $commentsCount = $comments->count();
 
         $user = Auth::user();
         $userName = $user ? $user->name : '';
-        $userImage = $user && $user->image ? asset('storage/images/' . $user->image) : asset('images/default-profile.png');
+        $userImage = $user && $user->image ? asset('storage/images/' . $user->image) : null;
 
-        return view('item.detail', compact('item', 'reviews', 'commentsCount', 'userName', 'userImage'));
+        return view('item.detail', compact('item', 'favorites','favoritesCount','comments', 'commentsCount', 'userName', 'userImage'));
+    }
+
+    public function store(CommentRequest $request, $item_id) {
+        $validatedData = $request->validated();
+
+        $comment = new Comment();
+        $comment->user_id = Auth::id();
+        $comment->item_id = $item_id;
+        $comment->content = $validatedData['content'];
+        $comment->save();
+
+        return redirect()->route('item.detail', $item_id);
     }
 
     public function search(Request $request) {

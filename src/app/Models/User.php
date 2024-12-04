@@ -32,7 +32,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Item::class, 'favorites');
     }
 
-    public function reviews() {
-        return $this->hasMany(Review::class);
+    public function comments() {
+        return $this->hasMany(Comment::class);
     }
 }

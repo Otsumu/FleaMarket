@@ -34,12 +34,12 @@
         <div class="first-info">
             <h2><strong>{{ $item->name }}</strong></h2>
             <p>ブランド名 {{ $item->brand }}</p>
-            <h3>¥{{ $item->price}} (税込)</h3>
+            <h3>¥{{ number_format($item->price) }} (税込)</h3>
             <div class="info-container">
                 <p id="favoriteButton" class="clickable"><i class="fa-regular fa-star"></i></p>
-                <span id="favoriteCount">{{ $item->favorite_count }}</span>
+                <span id="favoriteCount">{{ $favoritesCount }}</span>
                 <p id="commentButton" class="clickable"><i class="fa-regular fa-comment"></i></p>
-                <span id="commentCount">{{ $item->comment_count }}</span>
+                <span id="commentCount">{{ $commentsCount }}</span>
             </div>
             <a href="{{ route('item.purchase', ['item_id' => $item->id]) }}" class="buy buy-button">購入手続きへ</a>
         </div>
@@ -50,28 +50,32 @@
             商品の状態は状態は良好です、傷もありません。</p><br>
             <p>購入後、即発送します。</p>
             <h3 class="second"><strong>商品の情報</strong></h3>
-            <p>カテゴリー : {{ $item ->category }}</p>
-            <p>商品の状態 : {{ $item ->condition }}</p>
+            <p>カテゴリー : <span class="category-box">{{ $item ->category }}</span></p>
+            <p>商品の状態 : <span style="margin-left: 40px">{{ $item ->condition }}</span></p>
         </div>
         <div class="comment-info">
             <h3><strong>コメント ({{ $commentsCount }}) </strong></h3>
-            <div class="profile-wrapper">
-                <img id="profileImagePreview" src="{{ $userImage }}" alt="Profile Image" class="profile-image">
-                <h4 class="profile-name">{{ $userName }}</h4>
-            </div>
-            @foreach ($reviews as $review)
-                <p>{{ $review->content }} - {{ $review->user->name }}</p>
+            @foreach ($comments as $comment)
+                <p>{{ $comment->content }}</p>
+                <div class="profile-wrapper">
+                    <img id="profileImagePreview"
+                    src="{{ url('storage/' . $comment->user->image) }}" class="profile-image">
+                    <h4 class="profile-name">{{ $comment->user->name }}</h4>
+                </div>
             @endforeach
-            <textarea id="commentInput" rows="5">
-                @if($reviews->isNotEmpty())
-                    {{ $reviews->first()->content }}
+            <textarea id="commentInput" rows="2">
+                @if($comments->isNotEmpty())
+                    {{ $comments->first()->content }}
                 @else
-                    コメントがありません。
+                コメントがありません。
                 @endif
             </textarea>
             <h4 class="comment"><strong>商品へのコメント</strong></h4>
-            <textarea id="commentInput" rows="10" class="comment-comment" placeholder="コメントを入力"></textarea>
-            <button onclick="postComment()">コメントを送信する</button>
+            <form action="{{ route('comments.store', $item->id) }}" method="POST">
+                @csrf
+                <textarea id="commentInput" rows="10" class="comment-comment" placeholder="コメントを入力"></textarea>
+                <button onclick="postComment()">コメントを送信する</button>
+            </form>
         </div>
     </div>
 </div>
