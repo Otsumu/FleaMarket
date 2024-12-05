@@ -30,14 +30,27 @@
     <div class="left">
         <img src="{{ $item->img_url }}" alt="{{ $item->name }}" class="product-image">
     </div>
+
     <div class="right">
+    @if(session('success'))
+        <div class="alert alert-success" style="margin-top: 10px; font-size: 14px; color: green;">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger" style="margin-top: 10px; font-size: 14px; color: red;">
+            {{ session('error') }}
+        </div>
+    @endif
         <div class="first-info">
             <h2><strong>{{ $item->name }}</strong></h2>
             <p>ブランド名 {{ $item->brand }}</p>
             <h3>¥{{ number_format($item->price) }} (税込)</h3>
             <div class="info-container">
-                <p id="favoriteButton" class="clickable"><i class="fa-regular fa-star"></i></p>
-                <span id="favoriteCount">{{ $favoritesCount }}</span>
+                <p id="favoriteButton" class="clickable" data-item-id="{{ $item->id }}">
+                    <i class="fa-regular fa-star"></i>
+                </p>
+                <span id="favoriteCount">{{ $item->favorites()->count() }}</span>
                 <p id="commentButton" class="clickable"><i class="fa-regular fa-comment"></i></p>
                 <span id="commentCount">{{ $commentsCount }}</span>
             </div>
@@ -56,31 +69,29 @@
         <div class="comment-info">
             <h3><strong>コメント ({{ $commentsCount }}) </strong></h3>
             @foreach ($comments as $comment)
-                <p>{{ $comment->content }}</p>
                 <div class="profile-wrapper">
                     <img id="profileImagePreview"
                     src="{{ url('storage/' . $comment->user->image) }}" class="profile-image">
                     <h4 class="profile-name">{{ $comment->user->name }}</h4>
                 </div>
+            <textarea>{{ $comment->content }}</textarea>
             @endforeach
-            <textarea id="commentInput" rows="2">
-                @if($comments->isNotEmpty())
-                    {{ $comments->first()->content }}
-                @else
-                コメントがありません。
-                @endif
-            </textarea>
             <h4 class="comment"><strong>商品へのコメント</strong></h4>
             <form action="{{ route('comments.store', $item->id) }}" method="POST">
                 @csrf
-                <textarea id="commentInput" rows="10" class="comment-comment" placeholder="コメントを入力"></textarea>
-                <button onclick="postComment()">コメントを送信する</button>
+                @if($errors->has('content'))
+                    <div class="error" style="margin-top: 5px; font-size: 14px; color: red;">
+                        <p>{{ $errors->first('content') }}</p>
+                    </div>
+                @endif
+                <textarea id="commentInput" rows="10" name="content" class="comment-comment" placeholder="コメントを入力"></textarea>
+                <button type="submit">コメントを送信する</button>
             </form>
         </div>
     </div>
 </div>
 @endsection
 
-@section('scripts')
+@section('js')
     <script src="{{ asset('js/detail.js') }}"></script>
 @endsection

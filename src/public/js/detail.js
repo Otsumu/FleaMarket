@@ -1,41 +1,19 @@
-window.addEventListener('DOMContentLoaded', (event) => {
-    console.log('DOM fully loaded and parsed');
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('favoriteButton').addEventListener('click', async () => {
+        const itemId = document.getElementById('favoriteButton').getAttribute('data-item-id');
+        const favoriteCountElement = document.getElementById('favoriteCount');
 
-    const favoriteButton = document.getElementById('favoriteButton');
-    const commentButton = document.getElementById('commentButton');
+        const response = await fetch(`/items/${itemId}/toggle-favorite`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+        });
 
-    if (favoriteButton) {
-        console.log('Favorite button found');
-        favoriteButton.addEventListener('click', toggleFavorite);
-    } else {
-        console.log('Favorite button not found');
-    }
-
-    if (commentButton) {
-        console.log('Comment button found');
-        commentButton.addEventListener('click', toggleComment);
-    } else {
-        console.log('Comment button not found');
-    }
+        if (response.ok) {
+            const data = await response.json();
+            favoriteCountElement.textContent = data.favorite_count;
+        }
+    });
 });
-
-function toggleFavorite() {
-    console.log('toggleFavorite called');
-    const favoriteCountElement = document.getElementById('favoriteCount');
-    let favoriteCount = parseInt(favoriteCountElement.textContent);
-
-    favoriteCount = (favoriteCount === 0) ? favoriteCount + 1 : favoriteCount - 1;
-    favoriteCountElement.textContent = favoriteCount;
-    console.log('New favorite count:', favoriteCount);
-}
-
-function toggleComment() {
-    console.log('toggleComment called');
-    const commentCountElement = document.getElementById('commentCount');
-    let commentCount = parseInt(commentCountElement.textContent);
-
-    
-    commentCount += 1;
-    commentCountElement.textContent = commentCount;
-    console.log('New comment count:', commentCount);
-}

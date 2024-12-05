@@ -25,6 +25,7 @@ class CreateItemsTable extends Migration
             $table->string('category');
             $table->string('condition');
             $table->string('comment')->nullable();
+            $table->integer('comments_count')->default(0);
             $table->timestamps();
         });
     }

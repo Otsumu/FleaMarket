@@ -35,13 +35,35 @@ class ItemController extends Controller
     public function store(CommentRequest $request, $item_id) {
         $validatedData = $request->validated();
 
+        $existingComment = Comment::where('user_id', Auth::id())
+                            ->where('item_id', $item_id)
+                            ->first();
+
+        if ($existingComment) {
+            return redirect()->route('item.detail', $item_id)
+                        ->with('error', 'このアイテムにはすでにコメントを投稿しています');
+        }
+
         $comment = new Comment();
         $comment->user_id = Auth::id();
         $comment->item_id = $item_id;
         $comment->content = $validatedData['content'];
         $comment->save();
 
-        return redirect()->route('item.detail', $item_id);
+        $item = Item::findOrFail($item_id);
+        $item->comments_count = $item->comments()->count();
+        $item->save();
+
+        return redirect()->route('item.detail', $item_id)->with('success','コメントが投稿されました！');
+    }
+
+    public function toggleFavorite($itemId) {
+        $user = auth()->user();
+        $item = Item::find($itemId);
+
+        $item->favorites()->toggle($user->id);
+
+        return response()->json(['favorite_count' => $item->favorites()->count()]);
     }
 
     public function search(Request $request) {
