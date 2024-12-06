@@ -41,4 +41,5 @@ Route::prefix('items')->middleware('auth')->group(function () {
     Route::post('/save-image', [ItemController::class, 'saveImageFromUrl'])->name('save_image');
     Route::get('/sell', [ItemController::class, 'sell'])->name('item.sell');
     Route::get('/item/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase');
+    Route::post('/item/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase.post');
 });

@@ -1,0 +1,148 @@
+html, body {
+    height: 100%;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.header__center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.header-search-form {
+    display: flex;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.header-search-input {
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    align-items: center;
+    padding: 7px 0 7px 10px;
+    max-width: 500px;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px 0 0;
+}
+
+.nav-list {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    align-items: center;
+}
+
+.nav-list li {
+    margin: 0 15px;
+}
+
+.nav-list li:last-child {
+    margin: 0 5px;
+}
+
+.nav-list li a {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-list li .sell-button {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr;
+    gap: 50px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.first-wrapper {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 30px;
+    position: relative;
+}
+
+.product-image {
+    max-width: 30%;
+    height: auto;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: absolute;
+    top: 30%;
+    left: 40%;
+}
+
+.second-wrapper,
+.third-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.second-wrapper,
+.third-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.second-wrapper::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: #000;
+    margin-top: 20px;
+}
+
+.second-wrapper::after,
+.third-wrapper::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: #000;
+    margin-top: 20px;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    padding-top: 70px;
+}

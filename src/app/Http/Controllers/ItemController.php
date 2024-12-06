@@ -102,7 +102,8 @@ class ItemController extends Controller
     }
 
     public function purchase($item_id) {
-        $item = Item::firstOrNew(['id' => $item_id]);
-        return view('item.purchase', compact('item'));
+        $item = Item::findOrFail($item_id);
+        $user = auth()->user();
+        return view('item.purchase', compact('item','user'))->with('success','購入しました！');
     }
 }
