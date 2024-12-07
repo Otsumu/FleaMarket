@@ -101,9 +101,15 @@ class ItemController extends Controller
         return view('item.sell');
     }
 
-    public function purchase($item_id) {
+    public function purchase(Request $request, $item_id) {
         $item = Item::findOrFail($item_id);
         $user = auth()->user();
-        return view('item.purchase', compact('item','user'))->with('success','購入しました！');
+        $paymentMethod = $request->input('payment_method', '選択してください');
+
+        if (empty($paymentMethod)) {
+            $paymentMethod = '選択してください';
+        }
+
+        return view('item.purchase', compact('item','user','paymentMethod'))->with('success','購入しました！');
     }
 }

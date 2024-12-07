@@ -37,29 +37,36 @@
         </div>
         <div class="second-wrapper">
             <h3>支払い方法</h3>
-            <select class="payment-method">
-                <option value="credit_card" selected{{ old('payment_method') == 'credit_card' ? 'selected' : '' }}>カード支払い</option>
-                <option value="convenience_store" {{ old('payment_method') == 'convenience_store' ? 'selected' : '' }}>コンビニ支払い</option>
-            </select>
+            <div class="second-wrapper-tag" style="padding-left: 40px">
+                <select class="payment_method" name="payment_method" style="width: 40%; height: 40px;" margin-left: 30px;>
+                    <option value="credit_card" {{ (old('payment_method', $paymentMethod) == 'credit_card') ? 'selected' : '' }}>カード支払い</option>
+                    <option value="convenience_store" {{ (old('payment_method', $paymentMethod) == 'convenience_store') ? 'selected' : '' }}>コンビニ支払い</option>
+                </select>
+            </div>
         </div>
         <div class="third-wrapper">
-            <h3>配送先</h3>
-            <p>〒{{ $user->postcode }}</p>
-            <p>{{ $user->address }}{{ $user->build }}</p>
+            <div class="header-row">
+                <h3>配送先</h3>
+                <a href="{{ route('user.editProfile')}}">変更する</a>
+            </div>
+            <div class="third-wrapper-tag" style="padding-left: 40px;">
+                <p>〒{{ $user->postcode }}</p>
+                <p>{{ $user->address }}{{ $user->build }}</p>
+            </div>
         </div>
     </div>
 
     <div class="right">
         <form action="{{ route('item.purchase.post', $item->id ) }}" method="POST">
             @csrf
-            <table class="payment-method-check">
+            <table class="payment_method-check">
                 <tr>
                     <td>商品代金</td>
                     <td>¥{{ number_format($item->price) }}</td>
                 </tr>
                 <tr>
                     <td>支払い方法</td>
-                    <td>{{ old('payment_method', '選択してください')  }}</td>
+                    <td>{{  old('payment_method', $paymentMethod)  ?? '選択してください' }}</td>
                 </tr>
             </table>
             <button class="btn btn_buy" type="submit">購入する</button>
