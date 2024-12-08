@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Comment;
 use App\Models\Favorite;
+use App\Models\Purchase;
 
 class ItemController extends Controller
 {
@@ -101,15 +102,26 @@ class ItemController extends Controller
         return view('item.sell');
     }
 
+    public function showPurchaseForm($item_id) {
+        $item = Item::findOrFail($item_id);
+        $user = auth()->user();
+
+        return view('item.purchase', compact('item','user'));
+    }
+
     public function purchase(Request $request, $item_id) {
         $item = Item::findOrFail($item_id);
         $user = auth()->user();
-        $paymentMethod = $request->input('payment_method', '選択してください');
+        $paymentMethod = $request->input('payment_method');
 
-        if (empty($paymentMethod)) {
-            $paymentMethod = '選択してください';
-        }
+        Purchase::create([
+            'user_id' => $user->id,
+            'item_id' => $item->id,
+            'payment_method' => $paymentMethod,
+        ]);
 
-        return view('item.purchase', compact('item','user','paymentMethod'))->with('success','購入しました！');
+        $item->update(['status' => 'soldout']);
+
+        return redirect()->route('item.detail',['item_id' => $item->id])->with('success', '購入が完了しました！');
     }
 }

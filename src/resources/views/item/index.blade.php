@@ -47,6 +47,9 @@
                         <a href="{{ route('item.detail', ['item_id' => $item->id]) }}">
                         <img src="{{ $item->img_url }}" alt="{{ $item->name }}" class="item__img">
                         </a>
+                        @if($item->status == 'soldout')
+                            <span class="soldout-label">SOLD OUT</span>
+                        @endif
                     </div>
                     <div class="item__content">
                         <h2>{{ $item->name }}</h2>

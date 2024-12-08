@@ -38,9 +38,9 @@
         <div class="second-wrapper">
             <h3>支払い方法</h3>
             <div class="second-wrapper-tag" style="padding-left: 40px">
-                <select class="payment_method" name="payment_method" style="width: 40%; height: 40px;" margin-left: 30px;>
-                    <option value="credit_card" {{ (old('payment_method', $paymentMethod) == 'credit_card') ? 'selected' : '' }}>カード支払い</option>
-                    <option value="convenience_store" {{ (old('payment_method', $paymentMethod) == 'convenience_store') ? 'selected' : '' }}>コンビニ支払い</option>
+                <select class="payment_method" name="payment_method" style="width: 40%; height: 40px; margin-left: 30px;" required>
+                    <option value="credit_card" {{ old('payment_method') == 'credit_card' ? 'selected' : '' }}>カード支払い</option>
+                    <option value="convenience_store" {{ old('payment_method') == 'convenience_store' ? 'selected' : '' }}>コンビニ支払い</option>
                 </select>
             </div>
         </div>
@@ -66,11 +66,15 @@
                 </tr>
                 <tr>
                     <td>支払い方法</td>
-                    <td>{{  old('payment_method', $paymentMethod)  ?? '選択してください' }}</td>
+                    <td class="payment-method-display">選択してください</td>
                 </tr>
             </table>
             <button class="btn btn_buy" type="submit">購入する</button>
         </form>
     </div>
 </div>
+@endsection
+
+@section('js')
+    <script src="{{ asset('js/purchase.js') }}"></script>
 @endsection

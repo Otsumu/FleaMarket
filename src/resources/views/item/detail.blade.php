@@ -29,6 +29,9 @@
 <div class="container">
     <div class="left">
         <img src="{{ $item->img_url }}" alt="{{ $item->name }}" class="product-image">
+            @if($item->status == 'soldout')
+                <span class="soldout-label">SOLD OUT</span>
+            @endif
     </div>
 
     <div class="right">

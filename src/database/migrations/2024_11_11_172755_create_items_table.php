@@ -26,6 +26,7 @@ class CreateItemsTable extends Migration
             $table->string('condition');
             $table->string('comment')->nullable();
             $table->integer('comments_count')->default(0);
+            $table->enum('status',['available','soldout'])->default('available');
             $table->timestamps();
         });
     }
