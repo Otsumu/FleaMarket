@@ -6,6 +6,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Models\User;
+use App\Models\Item;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterConfirmMail;
@@ -67,6 +68,10 @@ class UserController extends Controller {
         }
 
         return response()->json(['success' => true]);
+    }
+
+    public function showChangeAddress() {
+        return view('user.changeAddress');
     }
 
     public function myPage() {

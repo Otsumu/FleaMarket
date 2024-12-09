@@ -94,9 +94,9 @@ main {
 
 .soldout-label {
     position: absolute;
-    top: 50%;
-    left: 15%;
-    width: 25%;
+    top: 45%;
+    left: 10.5%;
+    width: 30%;
     height: 50px;
     padding: 5px 10px;
     background-color: red;

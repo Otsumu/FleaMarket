@@ -32,6 +32,8 @@ Route::prefix('user')->middleware('auth')->group(function () {
     Route::patch('/updateProfile', [UserController::class, 'update'])->name('user.updateProfile');
     Route::post('/saveImage', [UserController::class, 'saveImage'])->name('user.saveImage');
     Route::get('/myPage', [UserController::class, 'myPage'])->name('user.myPage');
+    Route::get('/changeAddress',[UserController::class,'showChangeAddress'])->name('user.changeAddress');
+    Route::post('changeAddress',[UserController::class,'updateAddress'])->name('user.updateAddress');
 });
 
 Route::prefix('items')->middleware('auth')->group(function () {
