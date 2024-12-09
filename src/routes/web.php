@@ -33,7 +33,7 @@ Route::prefix('user')->middleware('auth')->group(function () {
     Route::post('/saveImage', [UserController::class, 'saveImage'])->name('user.saveImage');
     Route::get('/myPage', [UserController::class, 'myPage'])->name('user.myPage');
     Route::get('/changeAddress',[UserController::class,'showChangeAddress'])->name('user.changeAddress');
-    Route::post('changeAddress',[UserController::class,'updateAddress'])->name('user.updateAddress');
+    Route::patch('/changeAddress',[UserController::class,'updateAddress'])->name('user.updateAddress');
 });
 
 Route::prefix('items')->middleware('auth')->group(function () {
@@ -42,6 +42,6 @@ Route::prefix('items')->middleware('auth')->group(function () {
     Route::get('/image-upload', [ItemController::class, 'showImageUploadForm'])->name('image_upload_form');
     Route::post('/save-image', [ItemController::class, 'saveImageFromUrl'])->name('save_image');
     Route::get('/sell', [ItemController::class, 'sell'])->name('item.sell');
-    Route::get('/item/{item_id}/purchase', [ItemController::class, 'showPurchaseForm'])->name('item.purchase');
-    Route::post('/item/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase.post');
+    Route::get('/{item_id}/purchase', [ItemController::class, 'showPurchaseForm'])->name('item.purchase');
+    Route::post('/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase.post');
 });

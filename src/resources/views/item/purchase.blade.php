@@ -28,6 +28,11 @@
 @section('content')
 <div class="container">
     <div class="left">
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
         <div class="first-wrapper">
             <img src="{{ $item->img_url }}" alt="{{ $item->name }}" class="product-image">
             <div class="text-container">

@@ -24,9 +24,11 @@
 <main>
     <form class="auth-form" action="{{ route('user.updateAddress') }}" method="POST">
         @csrf
-        @method('patch')
-            <h2 class="auth-title">住所の変更</h2>
-            <div class="auth-item">
+        @method('PATCH')
+        <input type="hidden" name="_method" value="PATCH">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <h2 class="auth-title" style="margin-top: 10px">住所の変更</h2>
+            <div class="auth-item" style="gap: 30px;">
                 <div class="input-group">
                     <div style="display: flex; align-items: center;">
                         <h3 class="title" style="margin: 0;">郵便番号</h3>
@@ -65,7 +67,7 @@
                             </p>
                     </div>
                     <div class="input-tag">
-                        <input type="text" id="build" name="build" placeholder="build" value="{{ old('build', auth()->user()->build) }}">
+                        <input type="text" id="build" name="build" placeholder="Build" value="{{ old('build', auth()->user()->build) }}">
                     </div>
                 </div>
 

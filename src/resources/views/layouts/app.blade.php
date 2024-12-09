@@ -17,7 +17,9 @@
         <div class= header>
             <div class="header__left">
                 <div class="header__logo">
-                    <img src="{{ asset('images/logo.svg') }}" alt="Logo">
+                    <a href="{{ route('item.index') }}">
+                        <img src="{{ asset('images/logo.svg') }}" alt="Logo">
+                    </a>
                 </div>
             </div>
             <div class="header__center">

@@ -25,15 +25,20 @@ class PurchaseRequest extends FormRequest
     {
         return [
             'payment_method' => 'required|string',
+            'postcode' => 'required|regex:/^\d{3}-\d{4}$/',
             'address' => 'required|string',
+            'build' => 'required|string',
         ];
     }
 
     public function messages()
     {
         return [
-            'payment_method' => 'お支払い条件を選択してください',
-            'address' => '配送先を入力してください',
+            'payment_method.required' => 'お支払い条件を選択してください',
+            'postcode.required' => '郵便番号を入力してください',
+            'postcode.regex' => 'ハイフンを入れて7桁で入力してください',
+            'address.required' => '住所を入力してください',
+            'build.required' => '建物名を入力してください',
         ];
     }
 }
