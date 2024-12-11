@@ -8,6 +8,7 @@ use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PurchaseRequest;
 use App\Models\User;
 use App\Models\Item;
+use App\Models\Purchase;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterConfirmMail;
@@ -58,7 +59,7 @@ class UserController extends Controller {
             'build' => $validatedData['build'],
         ]);
 
-        return redirect('/')->with('success', 'プロフィールが更新されました');
+        return redirect()->route('user.myPage')->with('success', 'プロフィールが更新されました');
     }
 
     public function saveImage(ProfileRequest $request) {
@@ -93,6 +94,11 @@ class UserController extends Controller {
     }
 
     public function myPage() {
-        return view('user.myPage');
+        $user = auth()->user();
+        $items = Item::where('user_id', $user->id)->get();
+        $purchasedItems = Purchase::where('user_id', $user->id)
+            ->with('item')->get();
+
+        return view('user.myPage',compact('user','items','purchasedItems'));
     }
 }
