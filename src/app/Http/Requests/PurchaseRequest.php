@@ -25,9 +25,9 @@ class PurchaseRequest extends FormRequest
     {
         return [
             'payment_method' => 'required|string',
-            'postcode' => 'required|regex:/^\d{3}-\d{4}$/',
-            'address' => 'required|string',
-            'build' => 'required|string',
+            'postcode' => 'nullable|regex:/^\d{3}-\d{4}$/',
+            'address' => 'nullable|string',
+            'build' => 'nullable|string',
         ];
     }
 

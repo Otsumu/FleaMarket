@@ -55,10 +55,8 @@ class UserController extends Controller {
             'name' => $validatedData['name'],
             'postcode' => $validatedData['postcode'],
             'address' => $validatedData['address'],
-            'build' => $validatedData['build'] ?? '',
+            'build' => $validatedData['build'],
         ]);
-        Log::error('住所更新エラー: ' . $e->getMessage());
-        Log::error('スタックトレース: ' . $e->getTraceAsString());
 
         return redirect('/')->with('success', 'プロフィールが更新されました');
     }
@@ -80,14 +78,18 @@ class UserController extends Controller {
     }
 
     public function updateAddress(PurchaseRequest $request) {
-        $user = Auth::user();
-        $user->update([
-            'postcode' => $request->postcode,
-            'address' => $request->address,
-            'build' => $request->build ?? '',
+        $validatedData = $request->validated();
+
+        Purchase::create([
+            'user_id' => auth()->id(),
+            'item_id' => $request->item_id,
+            'payment_method' => $validatedData['payment_method'],
+            'postcode' => $validatedData['postcode'],
+            'address' => $validatedData['address'],
+            'build' => $validatedData['build'],
         ]);
 
-        return redirect()->back()->with('success', '住所変更しました！');
+        return redirect()->route('user.myPage')->with('success', '住所変更しました！');
     }
 
     public function myPage() {

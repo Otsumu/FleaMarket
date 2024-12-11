@@ -112,6 +112,11 @@ class ItemController extends Controller
 
     public function purchase(Request $request, $item_id) {
         $item = Item::findOrFail($item_id);
+
+        if ($item->status === 'soldout') {
+            return redirect()->route('item.detail', ['item_id' => $item->id])
+                ->with('error', 'この商品はすでに売り切れです。');
+        }
         $user = auth()->user();
         $paymentMethod = $request->input('payment_method');
 

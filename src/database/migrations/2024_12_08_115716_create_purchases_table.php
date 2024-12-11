@@ -18,9 +18,9 @@ class CreatePurchasesTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('item_id')->constrained()->onDelete('cascade');
             $table->enum('payment_method', ['credit_card', 'convenience_store'])->nullable();
-            $table->string('postcode', 8)->default('')->nullable(false);
-            $table->string('address')->default('');
-            $table->string('build')->default('');
+            $table->string('postcode', 8)->nullable();
+            $table->string('address')->nullable();
+            $table->string('build')->nullable();
             $table->timestamps();
         });
     }

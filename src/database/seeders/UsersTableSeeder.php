@@ -16,6 +16,8 @@ class UsersTableSeeder extends Seeder
                 'email' => $faker->unique()->safeEmail(),
                 'password' => bcrypt('password'),
                 'address' => $faker->address(),
+                'build' => $faker->buildingNumber(),
+                'postcode' => $faker->postcode(),
             ]);
         }
     }

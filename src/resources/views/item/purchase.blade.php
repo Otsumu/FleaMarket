@@ -56,12 +56,15 @@
             </div>
             <div class="third-wrapper-tag" style="padding-left: 40px;">
                 <p>〒{{ $user->postcode }}</p>
-                <p>{{ $user->address }}{{ $user->build }}</p>
+                <p>{{ $user->address }} &nbsp; {{ $user->build }}</p>
             </div>
         </div>
     </div>
 
     <div class="right">
+    @if ($item->status === 'soldout')
+        <p class="text-danger" style=" margin-top: 50%; font-size:30px; font-weight: bold;">この商品は売り切れです</p>
+    @else
         <form action="{{ route('item.purchase.post', $item->id ) }}" method="POST">
             @csrf
             <table class="payment_method-check">
@@ -76,6 +79,7 @@
             </table>
             <button class="btn btn_buy" type="submit">購入する</button>
         </form>
+    @endif
     </div>
 </div>
 @endsection
