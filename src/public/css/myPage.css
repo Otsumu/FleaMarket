@@ -91,7 +91,7 @@ main {
 .profile-wrapper {
     display: flex;
     align-items: center;
-    margin: -10% 0 0 15%;
+    margin: 5% 0 0 15%;
 }
 
 .profile-image {
@@ -149,6 +149,7 @@ main {
 .item__index a {
     color: black;
     text-decoration: none;
+    margin-bottom: 5px;
 }
 
 .item__index a:hover {
