@@ -48,9 +48,9 @@
         </div>
 
         <div class="item__list" id="itemList">
-            <div class="items sell-items" id="sell-items">
+            <div class="items-sell-items" id="sell-items">
             @if($items -> isEmpty())
-                <p style="font-size: 20px; font-weight: bold; padding: 10px; margin-top: 5%;">出品した商品はありません</p>
+                <p>出品した商品はありません</p>
             @else
                 @foreach($items as $item)
                     <div class="shop__item">
@@ -67,9 +67,9 @@
             @endif
             </div>
 
-            <div class="items purchase-items" id="purchase-items" style="display: none;">
+            <div class="items-purchase-items" id="purchase-items" style="display: none;">
             @if($purchasedItems -> isEmpty())
-                <p style="font-size: 20px; font-weight: bold; margin-top: 5%;">購入した商品はありません</p>
+                <p>購入した商品はありません</p>
             @else
                 @foreach($purchasedItems as $purchase)
                     <div class="shop__item">

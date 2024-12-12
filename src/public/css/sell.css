@@ -1,0 +1,258 @@
+html, body {
+    height: 100%;
+}
+
+.header__center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.header-search-form {
+    display: flex;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.header-search-input {
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    align-items: center;
+    padding: 7px 0 7px 10px;
+    max-width: 500px;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px 0 0;
+}
+
+.nav-list {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    align-items: center;
+}
+
+.nav-list li {
+    margin: 0 15px;
+}
+
+.nav-list li:last-child {
+    margin: 0 5px;
+}
+
+.nav-list li a {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-list li .sell-button {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.homepage {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 40px 250px;
+    background-color: white;
+}
+
+.first-content, .second-content, .third-content {
+    margin-bottom: 30px;
+}
+
+.first-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.file-upload {
+    border: 1px dashed lightgray;
+    width: 100%;
+    height: 100px;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+#preview-image {
+    max-width: 200px;
+    height: auto;
+    margin-top: 10px;
+    border: 1px solid lightgray;
+}
+
+#image-preview {
+    display: block;
+}
+
+.file-select {
+    border: 1px solid rgb(238, 3, 66);
+    color: rgb(238, 3, 66);
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+#preview-image {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    border: 1px solid lightgray;
+}
+
+h2.item-detail,
+h2.item-title {
+    position: relative;
+    font-size: 26px;
+    color: rgb(99, 98, 98);
+}
+
+h2.item-detail::after,
+h2.item-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: rgb(99, 98, 98);
+}
+
+.selected-category {
+    margin-top: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #555;
+}
+
+#categoryOptions li {
+    display: inline-block;
+    border: 1px solid rgb(238, 3, 66);
+    border-radius: 20px;
+    color: rgb(238, 3, 66);
+    background-color: white;
+    padding: 5px 15px;
+    margin-right: 15px;
+    margin-top: 15px;
+    list-style: none;
+}
+
+.category-options li.selected {
+    background-color: rgb(233, 87, 126);
+    color: white;
+}
+
+.select-box-label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #555;
+    margin-top: 30px;
+    display: block;
+}
+
+.select-box select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.third-content {
+    margin-top: 30px;
+}
+
+.item-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+label {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 0;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: -5px;
+}
+
+textarea {
+    resize: vertical;
+    height: 150px;
+}
+
+.price-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.currency-symbol {
+    position: absolute;
+    left: 10px;
+    font-size: 16px;
+    color: #555;
+}
+
+input[type="number"] {
+    width: 100%;
+    margin-left: 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    background-color: rgb(238, 3, 66);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: rgb(238, 3, 66);
+}
+
+
+@media (max-width: 768px) {
+    .homepage {
+        padding: 40px 20px;
+    }
+}

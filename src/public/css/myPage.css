@@ -91,7 +91,7 @@ main {
 .profile-wrapper {
     display: flex;
     align-items: center;
-    margin: 5% 0 0 15%;
+    margin: 3% 0 0 15%;
 }
 
 .profile-image {
@@ -103,7 +103,7 @@ main {
 }
 
 .profile-name {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
     margin-left: 10%;
 }
@@ -153,25 +153,41 @@ main {
 }
 
 .item__index a:hover {
-    color: red;
+    color: rgb(238, 3, 66);
 }
 
 .item__list {
     display: flex;
+    flex-direction: row;
+    margin-top: 3%;
+}
+
+.items-sell-items,
+.items-purchase-items {
+    display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: center;
-    margin-top: 50px;
+    width: 100%;
+}
+
+p {
+    width: 100%;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 40%;
+    white-space: nowrap;
 }
 
 .shop__item {
-    width: 100%;
-    max-width: 100%;
-    flex: 0 0 calc(25% - 20px);
+    position: relative;
+    display: inline-block;
+    width: calc(25% - 20px);
     box-sizing: border-box;
     border-radius: 5px;
     box-shadow: 2px 2px 5px gray;
     text-align: left;
+    margin-left: 15px;
+    margin-top: 15px;
 }
 
 .item__img {
@@ -179,4 +195,14 @@ main {
     height: auto;
     border-radius: 5px;
     display: block;
+}
+
+.item__content {
+    padding: 8px;
+}
+
+.item__content h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 5px;
 }
