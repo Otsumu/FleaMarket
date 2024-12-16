@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\PurchaseRequest;
+use App\Http\Requests\ExhibitionRequest;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -101,6 +102,26 @@ class ItemController extends Controller
 
     public function sell() {
         return view('item.sell');
+    }
+
+    public function storeItem(ExhibitionRequest $request) {
+        $validatedData = $request->validated();
+
+        if ($request->hasFile('img_url') && $request->file('img_url')->isValid()) {
+            $path = $request->file('img_url')->store('images', 'public');
+        }
+
+        Item::create([
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+            'img_url' => $validatedData['img_url'],
+            'category' => $validatedData['category'],
+            'condition' => $validatedData['condition'],
+            'price' => $validatedData['price'],
+            'user_id' => Auth::id(),
+        ]);
+
+        return redirect()->route('item.index')->with('success', '商品が登録されました！');
     }
 
     public function showPurchaseForm($item_id) {

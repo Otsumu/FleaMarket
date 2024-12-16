@@ -79,23 +79,32 @@ html, body {
 }
 
 .file-upload {
-    border: 1px dashed lightgray;
-    width: 100%;
-    height: 100px;
-    padding: 20px;
+    display: inline-block;
+    position: relative;
     text-align: center;
-    border-radius: 5px;
+    border: 1px dashed #ccc;
+    padding: 50px;
+    width: 100%;
+    height: auto;
 }
 
-#preview-image {
-    max-width: 200px;
-    height: auto;
-    margin-top: 10px;
-    border: 1px solid lightgray;
+.file-select {
+    cursor: pointer;
+    color: #333;
+    font-weight: bold;
 }
 
 #image-preview {
-    display: block;
+    position: relative;
+    margin-top: 0;
+    display: none;
+    text-align: center;
+}
+
+#preview-image {
+    max-width: 50%;
+    height: auto;
+    padding: 5px;
 }
 
 .file-select {
@@ -109,13 +118,6 @@ html, body {
     cursor: pointer;
     box-sizing: border-box;
     transition: all 0.3s ease;
-}
-
-#preview-image {
-    max-width: 100%;
-    max-height: 200px;
-    object-fit: contain;
-    border: 1px solid lightgray;
 }
 
 h2.item-detail,
@@ -143,7 +145,7 @@ h2.item-title::after {
     color: #555;
 }
 
-#categoryOptions li {
+#categoryOptions button {
     display: inline-block;
     border: 1px solid rgb(238, 3, 66);
     border-radius: 20px;
@@ -152,10 +154,17 @@ h2.item-title::after {
     padding: 5px 15px;
     margin-right: 15px;
     margin-top: 15px;
-    list-style: none;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
 }
 
-.category-options li.selected {
+#categoryOptions button:hover {
+    background-color: rgb(233, 87, 126);
+    color: white;
+}
+
+#categoryOptions button.selected {
     background-color: rgb(233, 87, 126);
     color: white;
 }
@@ -196,7 +205,7 @@ label {
     margin-bottom: 0;
 }
 
-input[type="text"],
+input,
 textarea {
     width: 100%;
     padding: 10px;
@@ -222,15 +231,16 @@ textarea {
     left: 10px;
     font-size: 16px;
     color: #555;
+    pointer-events: none;
 }
 
 input[type="number"] {
-    width: 100%;
-    margin-left: 0;
-    padding: 8px;
+    padding-left: 30px;
+    padding-right: 10px;
+    font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px;
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -248,6 +258,13 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background-color: rgb(238, 3, 66);
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-left: 12px;
+    align-self: flex-start;
 }
 
 
