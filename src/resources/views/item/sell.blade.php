@@ -46,6 +46,9 @@
                     <div class="error">{{ $message }}</div>
                 @enderror
             </div>
+            @if(isset($item) && $item->img_url)
+                <img src="{{ asset('storage/' . $item->img_url) }}">
+            @endif
         </div>
 
         <div class="second-content">

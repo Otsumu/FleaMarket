@@ -13,6 +13,7 @@ use App\Models\Item;
 use App\Models\Comment;
 use App\Models\Favorite;
 use App\Models\Purchase;
+use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
@@ -79,49 +80,31 @@ class ItemController extends Controller
         return view('item.index', compact('items'));
     }
 
-    public function showImageUploadForm() {
-        return view('item.image_upload');
-    }
-
-    public function saveImageFromUrl(Request $request) {
-        $imgUrl = $request->input('img_url');
-        $response = Http::get($imgUrl);
-
-        if ($response->successful() && strpos($response->header('Content-Type'), 'image/') === 0) {
-            $fileName = basename($imgUrl);
-            try {
-                Storage::disk('public')->put("images/{$fileName}", $response->body());
-                return response()->json(['message' => '画像を保存しました']);
-            } catch (\Exception $e) {
-                return response()->json(['error' => '画像の保存に失敗しました: ' . $e->getMessage()], 500);
-            }
-        }
-
-        return response()->json(['error' => '無効な画像URLまたは画像の取得に失敗しました。'], 400);
-    }
-
     public function sell() {
-        return view('item.sell');
+        $item = Item::find(1);
+        return view('item.sell', compact('item'));
     }
 
     public function storeItem(ExhibitionRequest $request) {
         $validatedData = $request->validated();
 
+        $path = '';
+
         if ($request->hasFile('img_url') && $request->file('img_url')->isValid()) {
             $path = $request->file('img_url')->store('images', 'public');
         }
 
-        Item::create([
+        $item = Item::create([
             'name' => $validatedData['name'],
             'description' => $validatedData['description'],
-            'img_url' => $validatedData['img_url'],
+            'img_url' => $path,
             'category' => $validatedData['category'],
             'condition' => $validatedData['condition'],
             'price' => $validatedData['price'],
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('item.index')->with('success', '商品が登録されました！');
+        return redirect()->route('item.index')->with('success', '商品が登録されました！')->with('item', $item);
     }
 
     public function showPurchaseForm($item_id) {
