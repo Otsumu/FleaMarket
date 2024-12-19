@@ -46,7 +46,7 @@
                     <div class="error">{{ $message }}</div>
                 @enderror
             </div>
-            @if(isset($item) && $item->img_url)
+            @if(isset($item) && $item->img_url&& Storage::disk('public')->exists($item->img_url))
                 <img src="{{ asset('storage/' . $item->img_url) }}">
             @endif
         </div>

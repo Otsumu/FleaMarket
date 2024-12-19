@@ -14,11 +14,16 @@ use App\Models\Comment;
 use App\Models\Favorite;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ItemController extends Controller
 {
     public function index() {
-        $items = Item::all();
+        $user = Auth::user();
+        $items = Item::when($user, function ($query) use ($user) {
+            return $query->where('user_id', '!=', $user->id);
+        })->get();
+
         return view('item.index',compact('items'));
     }
 

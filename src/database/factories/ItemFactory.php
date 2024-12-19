@@ -25,13 +25,15 @@ class ItemFactory extends Factory
             'image6.jpg',
             'image7.jpg',
             'image8.jpg',
+            'image9.jpg',
+            'image10.jpg',
         ];
 
         $randomImage = $this->faker->randomElement($imageFiles);
 
         return [
             'user_id' => User::inRandomOrder()->first()->id,
-            'img_url' => url('storage/images/' . $randomImage),
+            'img_url' => 'images/' . $randomImage,
             'name' => $faker->randomElement([
                         'スポーツウェア',
                         '最新型スマートフォン',

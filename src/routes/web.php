@@ -27,7 +27,7 @@ Route::get('/', [ItemController::class,'index'])->name('item.index');
 Route::get('/{item_id}', [ItemController::class, 'detail'])->name('item.detail');
 Route::get('/search', [ItemController::class, 'search'])->name('search');
 
-Route::prefix('user')->middleware('auth')->group(function () {
+Route::prefix('user')->middleware(['auth','verified'])->group(function () {
     Route::get('/editProfile', [UserController::class, 'edit'])->name('user.editProfile');
     Route::patch('/updateProfile', [UserController::class, 'update'])->name('user.updateProfile');
     Route::post('/saveImage', [UserController::class, 'saveImage'])->name('user.saveImage');

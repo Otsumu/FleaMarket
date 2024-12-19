@@ -56,7 +56,7 @@
                     <div class="shop__item">
                         <div class="item__image">
                             <a href="{{ route('item.detail', ['item_id' => $item->id]) }}">
-                                <img src="{{ $item->img_url }}" alt="{{ $item->name }}" class="item__img">
+                                <img src="{{ Str::startsWith($item->img_url, 'http') ? $item->img_url : asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}" class="item__img">
                             </a>
                         </div>
                         <div class="item__content">

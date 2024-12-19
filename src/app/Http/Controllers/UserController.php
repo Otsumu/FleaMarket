@@ -10,13 +10,14 @@ use App\Models\User;
 use App\Models\Item;
 use App\Models\Purchase;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\RegisterConfirmMail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisterConfirmMail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
     public function index() {
         return view('user.register');
     }
