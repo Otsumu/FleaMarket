@@ -15,10 +15,11 @@ class UserFactory extends Factory
         $faker = \Faker\Factory::create('ja_JP');
 
         $imageUrl = $faker->imageUrl(400, 400, 'people');
-        $imageContent = $this->getImageContent($imageUrl);
+        $imageContent = $this->downloadImage($imageUrl);
 
         if ($imageContent !== false) {
-            $imageName = 'images/' . uniqid() . '.jpg';
+
+            $imageName = 'images/' . uniqid() . '.' . $this->getImageExtension($imageContent);
             Storage::disk('public')->put($imageName, $imageContent);
         } else {
             $imageName = 'images/default.jpg';
@@ -35,17 +36,13 @@ class UserFactory extends Factory
 
     /**
      *
-     *
      * @param string $url
      * @return string|false
      */
-    private function getImageContent(string $url)
+    private function downloadImage(string $url)
     {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-
         $imageContent = curl_exec($ch);
 
         if (curl_errno($ch)) {
@@ -53,7 +50,40 @@ class UserFactory extends Factory
             return false;
         }
 
-        curl_close($ch);
-        return $imageContent;
+        if (strlen($imageContent) < 1000) {
+            curl_close($ch);
+            return false;
+        }
+
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_buffer($finfo, $imageContent);
+        finfo_close($finfo);
+
+        if ($mimeType == 'image/jpeg' || $mimeType == 'image/png') {
+            return $imageContent;
+        }
+
+        return false;
+    }
+
+    /**
+     *
+     *
+     * @param string $imageContent
+     * @return string
+     */
+    private function getImageExtension(string $imageContent)
+    {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_buffer($finfo, $imageContent);
+        finfo_close($finfo);
+
+        if ($mimeType == 'image/jpeg') {
+            return 'jpg';
+        } elseif ($mimeType == 'image/png') {
+            return 'png';
+        }
+
+        return 'jpg';
     }
 }

@@ -34,7 +34,7 @@
         </div>
     @endif
         <div class="first-wrapper">
-            <img src="{{ $item->img_url }}" alt="{{ $item->name }}" class="product-image">
+            <img src="{{ Str::startsWith($item->img_url, 'http') ? $item->img_url : asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}" class="product-image">
             <div class="text-container">
                 <h3>{{ $item->name }}</h3>
                 <h3>¥{{ number_format($item->price) }}</h3>

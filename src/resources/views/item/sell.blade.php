@@ -77,10 +77,10 @@
             <div class="select-box select-box-sort">
                 <label class="select-box-label">商品の状態</label>
                 <select name="condition" class="select-box">
-                    <option value="good" {{ old('condition') == 'good' ? 'selected' : '' }}>良好</option>
-                    <option value="not bad" {{ old('condition') == 'not bad' ? 'selected' : '' }}>目立った傷や汚れなし</option>
-                    <option value="bad" {{ old('condition') == 'bad' ? 'selected' : '' }}>やや傷や汚れあり</option>
-                    <option value="too bad" {{ old('condition') == 'too bad' ? 'selected' : '' }}>状態が悪い</option>
+                    <option value="良好" {{ old('condition') == 'good' ? 'selected' : '' }}>良好</option>
+                    <option value="目立った傷や汚れなし" {{ old('condition') == 'not bad' ? 'selected' : '' }}>目立った傷や汚れなし</option>
+                    <option value="やや傷や汚れあり" {{ old('condition') == 'bad' ? 'selected' : '' }}>やや傷や汚れあり</option>
+                    <option value="状態が悪い" {{ old('condition') == 'too bad' ? 'selected' : '' }}>状態が悪い</option>
                 </select>
                 @error('condition')
                     <div class="error">{{ $message }}</div>

@@ -11,6 +11,7 @@ use App\Actions\Fortify\CreateNewUser;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -47,6 +48,13 @@ class FortifyServiceProvider extends ServiceProvider
 
         $limiter->for('login', function (Request $request) {
             return Limit::perMinute(10);
+        });
+
+        Fortify::verifyEmailView(function () {
+            $user = Auth::user();
+            return view('auth.verify-email', [
+                'user' => $user,
+            ]);
         });
 
         Fortify::authenticateUsing(function (Request $request) {

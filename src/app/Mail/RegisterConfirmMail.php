@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -28,7 +29,7 @@ class RegisterConfirmMail extends Mailable
      */
     public function build()
     {
-        return $this->view('register_confirm')
+        return $this->view('auth.verify-email')
                     ->subject('会員登録ありがとうございます！');
     }
 }

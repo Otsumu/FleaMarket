@@ -75,7 +75,7 @@
                     <div class="shop__item">
                         <div class="item__image">
                             <a href="{{ route('item.detail', ['item_id' => $purchase->item->id]) }}">
-                                <img src="{{ $purchase->item->img_url }}" alt="{{ $purchase->item->name }}" class="item__img">
+                                <img src="{{ asset('storage/' . $purchase->item->img_url) }}" alt="{{ $purchase->item->name }}" class="item__img">
                             </a>
                         </div>
                         <div class="item__content">

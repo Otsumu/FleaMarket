@@ -1,5 +1,10 @@
 html, body {
     height: 100%;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+button, select {
+    font-family: 'Noto Sans JP', sans-serif;
 }
 
 .header__center {

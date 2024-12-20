@@ -135,7 +135,8 @@ class ItemController extends Controller
             'payment_method' => $paymentMethod,
         ]);
 
-        $item->update(['status' => 'soldout']);
+        $item->status = 'soldout';
+        $item->save();
 
         return redirect()->route('item.detail',['item_id' => $item->id])->with('success', '購入が完了しました！');
     }

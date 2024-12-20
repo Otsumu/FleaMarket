@@ -26,6 +26,7 @@ class ItemsTableSeeder extends Seeder
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
             'category' => 'ファッション',
             'condition' => '良好',
+            'status' => 'available',
         ]);
 
         Item::create([
@@ -36,6 +37,7 @@ class ItemsTableSeeder extends Seeder
             'description' => '高速で信頼性の高いハードディスク',
             'category' => '電子機器',
             'condition' => '目立った傷や汚れなし',
+            'status' => 'available',
         ]);
 
         Item::create([
@@ -46,6 +48,7 @@ class ItemsTableSeeder extends Seeder
             'description' => '新鮮な玉ねぎ3束のセット',
             'category' => '家庭用品',
             'condition' => 'やや傷や汚れあり',
+            'status' => 'available',
         ]);
 
         Item::create([
@@ -56,6 +59,7 @@ class ItemsTableSeeder extends Seeder
             'description' => 'クラシックなデザインの革靴',
             'category' => 'ファッション',
             'condition' => '状態が悪い',
+            'status' => 'available',
         ]);
 
         Item::create([
@@ -66,6 +70,7 @@ class ItemsTableSeeder extends Seeder
             'description' => '高性能なノートパソコン',
             'category' => '電子機器',
             'condition' => '良好',
+            'status' => 'available',
         ]);
 
         Item::create([
@@ -76,6 +81,7 @@ class ItemsTableSeeder extends Seeder
             'description' => '高音質のレコーディング用マイク',
             'category' => '電子機器',
             'condition' => '目立った傷や汚れなし',
+            'status' => 'available',
         ]);
 
         Item::create([
@@ -86,6 +92,7 @@ class ItemsTableSeeder extends Seeder
             'description' => 'おしゃれなショルダーバッグ',
             'category' => 'ファッション',
             'condition' => 'やや傷や汚れあり',
+            'status' => 'available',
         ]);
 
         Item::create([
@@ -96,6 +103,7 @@ class ItemsTableSeeder extends Seeder
             'description' => '使いやすいタンブラー',
             'category' => '家庭用品',
             'condition' => '状態が悪い',
+            'status' => 'available',
         ]);
 
         Item::create([
@@ -106,6 +114,7 @@ class ItemsTableSeeder extends Seeder
             'description' => '手動のコーヒーミル',
             'category' => '家庭用品',
             'condition' => '良好',
+            'status' => 'available',
         ]);
 
         Item::create([
@@ -116,6 +125,7 @@ class ItemsTableSeeder extends Seeder
             'description' => '便利なメイクアップセット',
             'category' => '美容健康',
             'condition' => '目立った傷や汚れなし',
+            'status' => 'available',
         ]);
     }
 }

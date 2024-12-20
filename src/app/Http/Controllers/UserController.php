@@ -31,11 +31,12 @@ class UserController extends Controller
         ]);
 
         auth()->login($user);
+        $user->markEmailAsVerified();
         event(new Registered($user));
 
         Mail::to($user->email)->send(new RegisterConfirmMail($user));
 
-        return redirect()->route('user.editProfile');
+        return redirect()->route('verification.notice');
     }
 
     public function edit() {

@@ -153,6 +153,7 @@ return [
         Features::twoFactorAuthentication([
             'confirm' => true,
             'confirmPassword' => true,
+            'emailVerification' => true,
             // 'window' => 0,
         ]),
     ],

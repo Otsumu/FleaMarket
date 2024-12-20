@@ -28,7 +28,7 @@
 @section('content')
 <div class="container">
     <div class="left">
-        <img src="{{ $item->img_url }}" alt="{{ $item->name }}" class="product-image">
+        <img src="{{ Str::startsWith($item->img_url, 'http') ? $item->img_url : asset('storage/' . $item->img_url) }}" class="product__img">
             @if($item->status == 'soldout')
                 <span class="soldout-label">SOLD OUT</span>
             @endif
@@ -66,8 +66,12 @@
             商品の状態は状態は良好です、傷もありません。</p><br>
             <p>購入後、即発送します。</p>
             <h3 class="second"><strong>商品の情報</strong></h3>
-            <p>カテゴリー : <span class="category-box">{{ $item ->category }}</span></p>
-            <p>商品の状態 : <span style="margin-left: 40px">{{ $item ->condition }}</span></p>
+            <p>カテゴリー :
+                @foreach(explode(',', $item->category) as $category)
+                    <span class="category-box">{{ $category }}</span>
+                @endforeach
+            </p>
+            <p>商品の状態 : <span style="margin-left: 15px">{{ $item->condition }}</span></p>
         </div>
         <div class="comment-info">
             <h3><strong>コメント ({{ $commentsCount }}) </strong></h3>

@@ -85,8 +85,8 @@ main {
     padding-top: 70px;
 }
 
-.product-image {
-    max-width: 70%;
+.product__img {
+    max-width: 60%;
     height: auto;
     margin-top: 20px;
     position: relative;
@@ -198,10 +198,12 @@ h2, h3 {
 
 .category-box {
     border: 1px solid lightgray;
-    margin-left: 20px;
-    padding: 6px 20px;
+    margin-left: 3px;
+    padding: 6px 10px;
     border-radius: 20px;
     background-color: lightgray;
+    display: inline-block; /* 横並びにする */
+    white-space: normal;
 }
 
 .comment-info {

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\UserController;
@@ -23,11 +25,27 @@ Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('au
 Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
 Route::post('register', [RegisteredUserController::class, 'store'])->name('auth.register');
 
+Route::get('/editProfile', [UserController::class, 'edit'])->name('user.editProfile');
+
 Route::get('/', [ItemController::class,'index'])->name('item.index');
 Route::get('/{item_id}', [ItemController::class, 'detail'])->name('item.detail');
 Route::get('/search', [ItemController::class, 'search'])->name('search');
 
-Route::prefix('user')->middleware(['auth','verified'])->group(function () {
+Route::get('email/verify/{id}/{hash}', function ($id, $hash) {
+    $user = User::findOrFail($id);
+
+    if (Hash::check($user->email, $hash)) {
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+            Auth::login($user);
+        }
+        return redirect('/user/editProfile');
+    }
+
+    return redirect()->route('verification.notice');
+})->middleware(['signed'])->name('verification.verify');
+
+Route::prefix('user')->middleware('auth')->group(function () {
     Route::get('/editProfile', [UserController::class, 'edit'])->name('user.editProfile');
     Route::patch('/updateProfile', [UserController::class, 'update'])->name('user.updateProfile');
     Route::post('/saveImage', [UserController::class, 'saveImage'])->name('user.saveImage');
