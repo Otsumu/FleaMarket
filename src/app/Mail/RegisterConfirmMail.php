@@ -29,7 +29,8 @@ class RegisterConfirmMail extends Mailable
      */
     public function build()
     {
-        return $this->view('auth.verify-email')
-                    ->subject('会員登録ありがとうございます！');
+        return $this->view('email.register_confirm')
+                    ->subject('会員登録ありがとうございます！')
+                    ->with(['user' => $this->user]);
     }
 }

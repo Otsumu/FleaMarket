@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Fortify\Fortify;
 use App\Models\User;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
@@ -25,8 +26,6 @@ Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('au
 Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
 Route::post('register', [RegisteredUserController::class, 'store'])->name('auth.register');
 
-Route::get('/editProfile', [UserController::class, 'edit'])->name('user.editProfile');
-
 Route::get('/', [ItemController::class,'index'])->name('item.index');
 Route::get('/{item_id}', [ItemController::class, 'detail'])->name('item.detail');
 Route::get('/search', [ItemController::class, 'search'])->name('search');
@@ -39,9 +38,9 @@ Route::get('email/verify/{id}/{hash}', function ($id, $hash) {
             $user->markEmailAsVerified();
             Auth::login($user);
         }
-        return redirect('/user/editProfile');
-    }
 
+        return view('email.register_confirm', ['user' => $user]);
+    }
     return redirect()->route('verification.notice');
 })->middleware(['signed'])->name('verification.verify');
 
