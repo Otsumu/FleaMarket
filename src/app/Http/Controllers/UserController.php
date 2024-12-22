@@ -31,12 +31,19 @@ class UserController extends Controller
         ]);
 
         auth()->login($user);
-        $user->markEmailAsVerified();
-        event(new Registered($user));
 
-        Mail::to($user->email)->send(new RegisterConfirmMail($user));
+        $verificationUrl = $this->generateVerificationUrl($user);
+        Mail::to($user->email)->send(new RegisterConfirmMail($user, $verificationUrl));
 
         return redirect()->route('verification.notice');
+    }
+
+    private function generateVerificationUrl($user) {
+        return URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            ['id' => $user->id, 'hash' => sha1($user->email)]
+        );
     }
 
     public function edit() {

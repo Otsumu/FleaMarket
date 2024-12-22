@@ -50,10 +50,10 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(10);
         });
 
-        Fortify::verifyEmailView(function () {
-            $user = Auth::user();
-            return view('email.register_confirm', ['user' => $user]);
-        });
+    //    Fortify::verifyEmailView(function () {
+    //       $user = Auth::user();
+    //        return view('emails.register_confirm', ['user' => $user]);
+    //    });
 
         Fortify::authenticateUsing(function (Request $request) {
             $credentials = $request->only('email', 'password');

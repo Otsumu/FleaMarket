@@ -39,7 +39,7 @@ Route::get('email/verify/{id}/{hash}', function ($id, $hash) {
             Auth::login($user);
         }
 
-        return view('email.register_confirm', ['user' => $user]);
+        return view('emails.register_confirm', ['user' => $user]);
     }
     return redirect()->route('verification.notice');
 })->middleware(['signed'])->name('verification.verify');
