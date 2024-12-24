@@ -30,20 +30,6 @@ Route::get('/', [ItemController::class,'index'])->name('item.index');
 Route::get('/{item_id}', [ItemController::class, 'detail'])->name('item.detail');
 Route::get('/search', [ItemController::class, 'search'])->name('search');
 
-Route::get('email/verify/{id}/{hash}', function ($id, $hash) {
-    $user = User::findOrFail($id);
-
-    if (Hash::check($user->email, $hash)) {
-        if (!$user->hasVerifiedEmail()) {
-            $user->markEmailAsVerified();
-            Auth::login($user);
-        }
-
-        return view('emails.register_confirm', ['user' => $user]);
-    }
-    return redirect()->route('verification.notice');
-})->middleware(['signed'])->name('verification.verify');
-
 Route::prefix('user')->middleware('auth')->group(function () {
     Route::get('/editProfile', [UserController::class, 'edit'])->name('user.editProfile');
     Route::patch('/updateProfile', [UserController::class, 'update'])->name('user.updateProfile');

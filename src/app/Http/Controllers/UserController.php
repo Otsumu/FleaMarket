@@ -38,14 +38,6 @@ class UserController extends Controller
         return redirect()->route('verification.notice');
     }
 
-    private function generateVerificationUrl($user) {
-        return URL::temporarySignedRoute(
-            'verification.verify',
-            now()->addMinutes(60),
-            ['id' => $user->id, 'hash' => sha1($user->email)]
-        );
-    }
-
     public function edit() {
         return view('user.editProfile');
     }

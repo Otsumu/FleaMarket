@@ -4,14 +4,13 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Laravel\Fortify\Fortify;
-use Illuminate\Cache\RateLimiter;
-use Illuminate\Support\Facades\Cache;
 use App\Actions\Fortify\CreateNewUser;
-use Illuminate\Support\Facades\Session;
+use Laravel\Fortify\Fortify;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Session;
+use App\Notifications\CustomVerifyEmail;
+use Illuminate\Auth\Notifications\VerifyEmail;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -44,16 +43,14 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::redirects('register', '/user/editProfile');
 
-        $limiter = app(RateLimiter::class);
-
-        $limiter->for('login', function (Request $request) {
-            return Limit::perMinute(10);
+        Fortify::verifyEmailView(function () {
+            $user = Auth::user();
+            return view('user.editProfile', ['user' => $user]);
         });
 
-    //    Fortify::verifyEmailView(function () {
-    //       $user = Auth::user();
-    //        return view('emails.register_confirm', ['user' => $user]);
-    //    });
+        VerifyEmail::toMailUsing(function ($notifiable, $url) {
+            return (new CustomVerifyEmail($url))->toMail($notifiable);
+        });
 
         Fortify::authenticateUsing(function (Request $request) {
             $credentials = $request->only('email', 'password');
@@ -70,3 +67,4 @@ class FortifyServiceProvider extends ServiceProvider
         });
     }
 }
+
