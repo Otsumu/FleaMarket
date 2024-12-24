@@ -52,7 +52,7 @@
         <div class="third-wrapper">
             <div class="header-row">
                 <h3>配送先</h3>
-                <a href="{{ route('user.changeAddress') }}">変更する</a>
+                <a href="{{ route('user.changeAddress', $item->id) }}">変更する</a>
             </div>
             <div class="third-wrapper-tag" style="padding-left: 40px;">
                 <p>〒{{ $user->postcode }}</p>

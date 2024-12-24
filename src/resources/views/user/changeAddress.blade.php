@@ -22,11 +22,10 @@
 
 @section('content')
 <main>
-    <form class="auth-form" action="{{ route('user.updateAddress') }}" method="POST">
+    <form class="auth-form" action="{{ route('user.updateAddress', ['item_id' => request()->segment(3)]) }}" method="POST">
         @csrf
-        @method('PATCH')
-        <input type="hidden" name="_method" value="PATCH">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        @method('patch')
+        <input type="hidden" name="item_id" value="{{ $item_id ?? '' }}">
             <h2 class="auth-title" style="margin-top: 10px">住所の変更</h2>
             <div class="auth-item" style="gap: 30px;">
                 <div class="input-group">

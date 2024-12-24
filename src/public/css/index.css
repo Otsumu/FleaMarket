@@ -81,6 +81,7 @@ main {
     justify-content: flex-start;
     gap: 100px;
     padding-top: 30px;
+    padding-bottom: 10px;
     padding-left: 160px;
     color: black;
     width: calc(100% + 160px);

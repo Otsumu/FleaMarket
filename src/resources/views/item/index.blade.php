@@ -37,8 +37,8 @@
             </div>
         @endif
         <div class="item__index">
-            <a class="recommend" href="#">おすすめ<p>
-            <a class="myList" href="#">マイリスト</p>
+            <a class="recommend" href="#" id="recommend-tab">おすすめ</a>
+            <a class="myList" href="#" id="mylist-tab">マイリスト</a>
         </div>
         <div class="item__list">
             @foreach($items as $item)
@@ -58,4 +58,8 @@
             @endforeach
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script src="{{ asset('js/index.js') }}"></script>
 @endsection

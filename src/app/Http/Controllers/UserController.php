@@ -9,6 +9,7 @@ use App\Http\Requests\PurchaseRequest;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Purchase;
+use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -43,8 +44,8 @@ class UserController extends Controller
     }
 
     public function update(AddressRequest $addressRequest, ProfileRequest $profileRequest) {
-        $validatedData = $addressRequest->validated();
-        $profileValidatedData = $profileRequest->validated();
+        $addressData = $addressRequest->validated();
+        $profileData = $profileRequest->validated();
 
         $user = auth()->user();
 
@@ -54,10 +55,10 @@ class UserController extends Controller
         }
 
         $user ->update([
-            'name' => $validatedData['name'],
-            'postcode' => $validatedData['postcode'],
-            'address' => $validatedData['address'],
-            'build' => $validatedData['build'],
+            'name' => $addressData['name'],
+            'postcode' => $addressData['postcode'],
+            'address' => $addressData['address'],
+            'build' => $addressData['build'],
         ]);
 
         return redirect()->route('user.myPage')->with('success', 'プロフィールが更新されました');
@@ -75,23 +76,30 @@ class UserController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function showChangeAddress() {
-        return view('user.changeAddress');
+    public function showChangeAddress($item_id) {
+        return view('user.changeAddress', [
+            'item_id' => $item_id
+        ]);
     }
 
-    public function updateAddress(PurchaseRequest $request) {
+    public function updateAddress(AddressRequest $request, $item_id) {
+        dd([
+            'request_method' => $request->method(),
+            'item_id' => $item_id,
+            'all_data' => $request->all()
+        ]);
+        
         $validatedData = $request->validated();
 
-        Purchase::create([
-            'user_id' => auth()->id(),
-            'item_id' => $request->item_id,
-            'payment_method' => $validatedData['payment_method'],
+        $user = auth()->user();
+        $user->update([
             'postcode' => $validatedData['postcode'],
             'address' => $validatedData['address'],
             'build' => $validatedData['build'],
         ]);
 
-        return redirect()->route('user.myPage')->with('success', '住所変更しました！');
+        return redirect()->route('item.purchase', ['item_id' => $item_id])
+            ->with('success', '住所変更しました！');
     }
 
     public function myPage() {
