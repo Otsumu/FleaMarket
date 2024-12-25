@@ -61,5 +61,66 @@
 @endsection
 
 @section('js')
-    <script src="{{ asset('js/index.js') }}"></script>
+    <script>
+        const itemDetailPath = "{{ route('item.detail', ['item_id' => ':id']) }}";
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+            const mylistTab = document.getElementById('mylist-tab');
+            const itemList = document.querySelector('.item__list');
+
+            async function showFavoriteItems() {
+                try {
+                    console.log('Fetching favorites...');
+                    const response = await fetch('/items/favorites', {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    console.log('Response received');
+                    const data = await response.json();
+                    console.log('Favorites data:', data);
+
+                    if (!data.items || data.items.length === 0) {
+                        itemList.innerHTML = '<div class="no-items">お気に入りに登録された商品はありません</div>';
+                        return;
+                    }
+
+                    itemList.innerHTML = data.items.map(item => `
+                        <div class="shop__item">
+                            <div class="item__image">
+                                <a href="${itemDetailPath.replace(':id', item.id)}">
+                                    <img src="${item.img_url.startsWith('http') ? item.img_url : '/storage/' + item.img_url}" 
+                                        alt="${item.name}"
+                                        class="item__img">
+                                </a>
+                                ${item.status === 'soldout' ? '<span class="soldout-label">SOLD OUT</span>' : ''}
+                            </div>
+                            <div class="item__content">
+                                <h2>${item.name}</h2>
+                            </div>
+                        </div>
+                    `).join('');
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    itemList.innerHTML = '<div class="error">データの取得に失敗しました</div>';
+                }
+            }
+
+            if (mylistTab) {
+                mylistTab.onclick = function(e) {
+                    console.log('Mylist clicked');
+                    e.preventDefault();
+                    showFavoriteItems();
+                };
+            }
+        });
+    </script>
 @endsection

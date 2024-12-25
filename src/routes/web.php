@@ -42,6 +42,7 @@ Route::prefix('user')->middleware('auth')->group(function () {
 Route::prefix('items')->middleware('auth')->group(function () {
     Route::post('/{item_id}/comments', [ItemController::class, 'store'])->name('comments.store');
     Route::post('/{item_id}/toggle-favorite', [ItemController::class, 'toggleFavorite'])->name('favorite.toggle');
+    Route::get('/favorites', [ItemController::class, 'getFavorites']);
     Route::get('/sell', [ItemController::class, 'sell'])->name('item.sell');
     Route::post('/sell', [ItemController::class, 'storeItem'])->name('item.store');
     Route::get('/{item_id}/purchase', [ItemController::class, 'showPurchaseForm'])->name('item.purchase');

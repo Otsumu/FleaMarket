@@ -75,6 +75,30 @@ class ItemController extends Controller
         return response()->json(['favorite_count' => $item->favorites()->count()]);
     }
 
+    public function getFavorites() {
+        try {
+            $user = auth()->user();
+
+            if (!$user) {
+                return response()->json(['message' => 'Unauthorized'], 401);
+            }
+
+            $favoriteItems = Item::whereHas('favorites', function($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })->get();
+
+            return response()->json([
+                'items' => $favoriteItems,
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error fetching favorites',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function search(Request $request) {
         $query = $request->input('query');
 
