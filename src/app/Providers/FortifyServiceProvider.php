@@ -41,12 +41,12 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.register');
         });
 
-        Fortify::redirects('register', '/user/editProfile');
-
         Fortify::verifyEmailView(function () {
             $user = Auth::user();
             return view('user.editProfile', ['user' => $user]);
         });
+
+        Fortify::redirects('verify-email', '/user/editProfile');
 
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
             return (new CustomVerifyEmail($url))->toMail($notifiable);

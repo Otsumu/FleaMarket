@@ -5,17 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
-use App\Http\Requests\PurchaseRequest;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\RegisterConfirmMail;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class UserController extends Controller
 {
@@ -32,9 +27,6 @@ class UserController extends Controller
         ]);
 
         auth()->login($user);
-
-        $verificationUrl = $this->generateVerificationUrl($user);
-        Mail::to($user->email)->send(new RegisterConfirmMail($user, $verificationUrl));
 
         return redirect()->route('verification.notice');
     }
@@ -55,7 +47,7 @@ class UserController extends Controller
         }
 
         $user ->update([
-            'name' => $addressData['name'],
+            'name' => $user ->name,
             'postcode' => $addressData['postcode'],
             'address' => $addressData['address'],
             'build' => $addressData['build'],
@@ -83,23 +75,21 @@ class UserController extends Controller
     }
 
     public function updateAddress(AddressRequest $request, $item_id) {
-        dd([
-            'request_method' => $request->method(),
-            'item_id' => $item_id,
-            'all_data' => $request->all()
-        ]);
-        
-        $validatedData = $request->validated();
+        try {
+            $validatedData = $request->validated();
 
-        $user = auth()->user();
-        $user->update([
-            'postcode' => $validatedData['postcode'],
-            'address' => $validatedData['address'],
-            'build' => $validatedData['build'],
-        ]);
+            $user = auth()->user();
+            $user->update([
+                'postcode' => $validatedData['postcode'],
+                'address' => $validatedData['address'],
+                'build' => $validatedData['build']
+            ]);
 
         return redirect()->route('item.purchase', ['item_id' => $item_id])
             ->with('success', '住所変更しました！');
+        } catch (\Exception $e) {
+        return back()->withErrors(['error' => '住所の更新に失敗しました。']);
+        }
     }
 
     public function myPage() {

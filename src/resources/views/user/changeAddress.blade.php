@@ -24,8 +24,8 @@
 <main>
     <form class="auth-form" action="{{ route('user.updateAddress', ['item_id' => request()->segment(3)]) }}" method="POST">
         @csrf
-        @method('patch')
-        <input type="hidden" name="item_id" value="{{ $item_id ?? '' }}">
+        @method('PATCH')
+        <input type="hidden" name="debug" value="test">
             <h2 class="auth-title" style="margin-top: 10px">住所の変更</h2>
             <div class="auth-item" style="gap: 30px;">
                 <div class="input-group">
@@ -72,7 +72,7 @@
 
                 <div class="btn-actions">
                     <div class="register-btn">
-                        <button type="submit">更新する</button>
+                        <button type="submit" onclick="console.log('フォーム送信'); return true;">更新する</button>
                     </div>
                 </div>
             </div>

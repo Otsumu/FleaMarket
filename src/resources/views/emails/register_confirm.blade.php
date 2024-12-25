@@ -66,7 +66,7 @@
 
         <h1>ご登録ありがとうございます</h1>
         <p><span class="highlight">{{ $user->name }}</span> 様、下記URLをクリックし登録を完了してください</p>
-        <p><a class="account-link" href="{{ url('/user/editProfile') }}">アカウントを確認</a></p>
+        <p><a class="account-link" href="{{ $url }}">アカウントを確認</a></p>
     </div>
 
 </body>
