@@ -49,7 +49,7 @@ class FortifyServiceProvider extends ServiceProvider
             $user = Auth::user();
 
             if ($user && $user->email_verified_at) {
-                return redirect('/item.index');
+                return redirect('/');
             }
 
             return view('user.editProfile', ['user' => $user]);
