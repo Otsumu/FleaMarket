@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const paymentSelect = document.querySelector('.payment_method');
     const paymentDisplay = document.querySelector('.payment-method-display');
+    const hiddenInput = document.querySelector('#hidden_payment_method');
 
     paymentSelect.addEventListener('change', function() {
-        const selectedText = paymentSelect.options[paymentSelect.selectedIndex].text;
-
-        paymentDisplay.textContent = selectedText;
+        paymentDisplay.textContent = this.options[this.selectedIndex].text;
+        hiddenInput.value = this.value;
     });
 });

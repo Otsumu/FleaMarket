@@ -43,7 +43,7 @@
         <div class="second-wrapper">
             <h3>支払い方法</h3>
             <div class="second-wrapper-tag" style="padding-left: 40px">
-                <select class="payment_method" name="payment_method" style="width: 40%; height: 40px; margin-left: 30px;" required>
+                <select class="payment_method" name="payment_method" id="paymentMethod" style="width: 40%; height: 40px; margin-left: 30px;" required>
                     <option value="credit_card" {{ old('payment_method') == 'credit_card' ? 'selected' : '' }}>カード支払い</option>
                     <option value="convenience_store" {{ old('payment_method') == 'convenience_store' ? 'selected' : '' }}>コンビニ支払い</option>
                 </select>
@@ -65,8 +65,9 @@
     @if ($item->status === 'soldout')
         <p class="text-danger" style=" margin-top: 50%; font-size:30px; font-weight: bold;">この商品は売り切れです</p>
     @else
-        <form action="{{ route('item.purchase.post', $item->id ) }}" method="POST">
-            @csrf
+    <form id="purchaseForm" action="{{ route('payment.create', $item->id ) }}" method="GET">
+        @csrf
+        <input type="hidden" name="payment_method" id="hidden_payment_method">
             <table class="payment_method-check">
                 <tr>
                     <td>商品代金</td>
@@ -83,6 +84,10 @@
     </div>
 </div>
 @endsection
+
+<script>
+    const item_id = {{ $item->id }};
+</script>
 
 @section('js')
     <script src="{{ asset('js/purchase.js') }}"></script>

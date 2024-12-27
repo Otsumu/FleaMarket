@@ -8,6 +8,7 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,4 +48,9 @@ Route::prefix('items')->middleware('auth')->group(function () {
     Route::post('/sell', [ItemController::class, 'storeItem'])->name('item.store');
     Route::get('/{item_id}/purchase', [ItemController::class, 'showPurchaseForm'])->name('item.purchase');
     Route::post('/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase.post');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/payment/{itemId}/create', [PaymentController::class, 'create'])->name('payment.create');
+    Route::post('/payment/{itemId}', [PaymentController::class, 'store'])->name('payment.store');
 });
