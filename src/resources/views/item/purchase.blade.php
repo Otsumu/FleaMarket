@@ -89,23 +89,17 @@
     const paymentMethodSelect = document.getElementById('paymentMethod');
     const purchaseForm = document.getElementById('purchaseForm');
 
-    paymentMethodSelect.addEventListener('change', function () {
-        const paymentMethod = this.value;
-
+    purchaseForm.addEventListener('submit', function (e) {
+        const paymentMethod = paymentMethodSelect.value;
         if (paymentMethod === 'credit_card') {
-            purchaseForm.action = "/items/{{ $item->id }}/create";
+            e.preventDefault();
+            window.location.href = "/items/{{ $item->id }}/create";
         } else if (paymentMethod === 'convenience_store') {
             purchaseForm.action = "/items/{{ $item->id }}/purchase";
         }
-
-        console.log('Form action updated to:', purchaseForm.action);
-    });
-
-    purchaseForm.addEventListener('submit', function (e) {
         console.log('Form submitted. Current action:', this.action);
     });
 });
-
 </script>
 
 @section('js')
