@@ -1,10 +1,15 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const paymentSelect = document.querySelector('.payment_method');
-    const paymentDisplay = document.querySelector('.payment-method-display');
-    const hiddenInput = document.querySelector('#hidden_payment_method');
+document.getElementById('paymentMethod').addEventListener('change', function() {
+    var selectedPaymentMethod = this.value;
+    document.getElementById('hidden_payment_method').value = selectedPaymentMethod;
 
-    paymentSelect.addEventListener('change', function() {
-        paymentDisplay.textContent = this.options[this.selectedIndex].text;
-        hiddenInput.value = this.value;
-    });
+    // 支払い方法を画面上に表示
+    var paymentMethodDisplay = document.querySelector('.payment-method-display');
+    if (selectedPaymentMethod === 'credit_card') {
+        paymentMethodDisplay.textContent = 'カード支払い';
+    } else if (selectedPaymentMethod === 'convenience_store') {
+        paymentMethodDisplay.textContent = 'コンビニ支払い';
+    } else {
+        paymentMethodDisplay.textContent = '選択してください';
+    }
 });
+

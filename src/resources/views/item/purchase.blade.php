@@ -65,9 +65,8 @@
     @if ($item->status === 'soldout')
         <p class="text-danger" style=" margin-top: 50%; font-size:30px; font-weight: bold;">この商品は売り切れです</p>
     @else
-    <form id="purchaseForm" action="{{ route('payment.create', $item->id ) }}" method="GET">
+    <form action="{{ route('item.purchase.post', $item->id ) }}" method="POST">
         @csrf
-        <input type="hidden" name="payment_method" id="hidden_payment_method">
             <table class="payment_method-check">
                 <tr>
                     <td>商品代金</td>
