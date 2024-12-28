@@ -65,7 +65,7 @@
     @if ($item->status === 'soldout')
         <p class="text-danger" style=" margin-top: 50%; font-size:30px; font-weight: bold;">この商品は売り切れです</p>
     @else
-    <form action="{{ route('item.purchase.post', $item->id ) }}" method="POST">
+    <form id="purchaseForm" action="{{ route('item.purchase.post', $item->id) }}" method="POST">
         @csrf
             <table class="payment_method-check">
                 <tr>
@@ -85,7 +85,27 @@
 @endsection
 
 <script>
-    const item_id = {{ $item->id }};
+    document.addEventListener('DOMContentLoaded', function () {
+    const paymentMethodSelect = document.getElementById('paymentMethod');
+    const purchaseForm = document.getElementById('purchaseForm');
+
+    paymentMethodSelect.addEventListener('change', function () {
+        const paymentMethod = this.value;
+
+        if (paymentMethod === 'credit_card') {
+            purchaseForm.action = "/items/{{ $item->id }}/create";
+        } else if (paymentMethod === 'convenience_store') {
+            purchaseForm.action = "/items/{{ $item->id }}/purchase";
+        }
+
+        console.log('Form action updated to:', purchaseForm.action);
+    });
+
+    purchaseForm.addEventListener('submit', function (e) {
+        console.log('Form submitted. Current action:', this.action);
+    });
+});
+
 </script>
 
 @section('js')

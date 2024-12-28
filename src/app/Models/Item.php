@@ -13,6 +13,13 @@ class Item extends Model
         'user_id', 'name', 'img_url', 'brand', 'price', 'color', 'description', 'category', 'condition', 'comment','status',
     ];
 
+    const STATUS_AVAILABLE = 'available';
+    const STATUS_SOLD_OUT = 'soldout';
+
+    public function scopeAvailable($query) {
+        return $query->where('status', self::STATUS_AVAILABLE);
+    }
+
     public function user() {
         return $this->belongsTo(User::class);
     }

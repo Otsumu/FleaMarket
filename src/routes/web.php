@@ -50,3 +50,7 @@ Route::prefix('items')->middleware('auth')->group(function () {
     Route::post('/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase.post');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/items/{id}/create', [PaymentController::class, 'create'])->name('create');
+    Route::post('/items/{id}/payment', [PaymentController::class, 'store'])->name('payment.store');
+});

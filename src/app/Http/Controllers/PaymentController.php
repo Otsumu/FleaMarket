@@ -10,13 +10,14 @@ use App\Models\Payment;
 
 class PaymentController extends Controller
 {
+    public function create($id) {
+        $item = Item::findOrFail($id);
+        return view('create', compact('item'));
+    }
+
     public function store(Request $request) {
         $itemId = $request->input('item_id');
         $item = Item::findOrFail($itemId);
-
-        if ($item->status === 'soldout') {
-            return back()->withErrors(['status' => 'この商品は売り切れました']);
-        }
 
         Stripe::setApiKey(config('stripe.stripe_secret_key'));
 
@@ -35,10 +36,10 @@ class PaymentController extends Controller
                 'status' => $charge->status,
             ]);
 
-            $item->payment_status = 1;
+            $item->status = 'soldout';
             $item->save();
 
-            return back()->with('status', '決済が完了しました！');
+            return redirect()->route('item.detail', $item->id)->with('status', '決済が完了しました！');
         } catch (\Stripe\Exception\CardException $e) {
             return back()->withErrors(['payment' => $e->getMessage()]);
         }
