@@ -84,24 +84,76 @@
 </div>
 @endsection
 
+@section('js')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    const paymentMethodSelect = document.getElementById('paymentMethod');
-    const purchaseForm = document.getElementById('purchaseForm');
+        const itemId = {{ $item->id }};
+        
+        // 支払い方法選択時の表示変更とボタンの有効化・無効化
+        document.getElementById('paymentMethod').addEventListener('change', function() {
+            var selectedPaymentMethod = this.value;
+            var paymentMethodDisplay = document.querySelector('.payment-method-display');
+            var purchaseButton = document.getElementById('purchaseButton');  // 購入ボタン
 
-    purchaseForm.addEventListener('submit', function (e) {
-        const paymentMethod = paymentMethodSelect.value;
-        if (paymentMethod === 'credit_card') {
+            // 支払い方法に応じた表示変更
+            if (selectedPaymentMethod === 'credit_card') {
+                paymentMethodDisplay.textContent = 'カード支払い';
+                if (purchaseButton) {
+                    purchaseButton.disabled = false;  // 購入ボタンを有効にする
+                }
+            } else if (selectedPaymentMethod === 'convenience_store') {
+                paymentMethodDisplay.textContent = 'コンビニ支払い';
+                if (purchaseButton) {
+                    purchaseButton.disabled = false;  // 購入ボタンを有効にする
+                }
+            } else {
+                paymentMethodDisplay.textContent = '選択してください';
+                if (purchaseButton) {
+                    purchaseButton.disabled = true;  // 購入ボタンを無効にする
+                }
+            }
+        });
+
+        // フォーム送信時の処理
+        document.getElementById('purchaseForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            window.location.href = "/items/{{ $item->id }}/create";
-        } else if (paymentMethod === 'convenience_store') {
-            purchaseForm.action = "/items/{{ $item->id }}/purchase";
-        }
-        console.log('Form submitted. Current action:', this.action);
-    });
-});
-</script>
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const form = this;
 
-@section('js')
-    <script src="{{ asset('js/purchase.js') }}"></script>
+            // 支払い方法がカードの場合
+            if (paymentMethod === 'credit_card') {
+                window.location.href = `/items/${itemId}/create`;  // カード決済の処理
+            } else {
+                // コンビニ支払いの場合
+                fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(new FormData(form))
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();  // レスポンスをJSONとして解析
+                    } else {
+                        throw new Error('購入処理が失敗しました');
+                    }
+                })
+                .then(data => {
+                    // サーバーからリダイレクトURLが返されている場合
+                    if (data.redirect_url) {
+                        window.location.href = data.redirect_url;  // リダイレクトURLに遷移
+                    } else {
+                        console.error('リダイレクトURLが見つかりません');
+                    }
+                })
+                .catch(error => {
+                    console.error('購入処理でエラーが発生しました:', error);
+                    alert('購入処理中にエラーが発生しました。再度お試しください。');
+                });
+            }
+        });
+    });
+</script>
 @endsection

@@ -13,7 +13,7 @@ class PurchaseRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,7 @@ class PurchaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'payment_method' => 'required|string',
+            'payment_method' => 'required|string|in:credit_card,convenience_store',
             'postcode' => 'nullable|regex:/^\d{3}-\d{4}$/',
             'address' => 'nullable|string',
             'build' => 'nullable|string',

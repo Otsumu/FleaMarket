@@ -143,15 +143,16 @@ class ItemController extends Controller
         return view('item.purchase', compact('item','user'));
     }
 
-    public function purchase(Request $request, $item_id) {
+    public function purchase(PurchaseRequest $request, $item_id) {
         $item = Item::findOrFail($item_id);
 
         if ($item->status === 'soldout') {
             return redirect()->route('item.detail', ['item_id' => $item->id])
                 ->with('error', 'この商品はすでに売り切れです。');
         }
+
         $user = auth()->user();
-        $paymentMethod = $request->input('payment_method');
+        $paymentMethod = $request->input('payment_method', 'credit_card');
 
         Purchase::create([
             'user_id' => $user->id,
@@ -162,6 +163,10 @@ class ItemController extends Controller
         $item->status = 'soldout';
         $item->save();
 
-        return redirect()->route('item.detail',['item_id' => $item->id])->with('success', '購入が完了しました！');
+        if ($paymentMethod === 'convenience_store') {
+            return redirect()->route('payment.convenience.store', ['item_id' => $item->id]);
+        }
+        return redirect()->route('item.detail', ['item_id' => $item->id])
+            ->with('success', '購入が完了しました！');
     }
 }
