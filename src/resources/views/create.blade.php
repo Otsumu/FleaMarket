@@ -52,7 +52,7 @@
 @section('js')
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        const stripe = Stripe("{{ config('stripe.stripe_public_key') }}");
+        const stripe = Stripe("{{ env('STRIPE_PUBLIC_KEY') }}");
         const elements = stripe.elements();
 
         const cardNumber = elements.create('cardNumber');
@@ -68,28 +68,22 @@
         form.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            stripe.createToken(cardNumber).then(function(result) {
-                if (result.error) {
-                    const errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    const token = result.token;
+        stripe.createToken(cardNumber).then(function(result) {
+            if (result.error) {
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                const token = result.token;
 
-                    const hiddenInput = document.createElement('input');
-                    hiddenInput.setAttribute('type', 'hidden');
-                    hiddenInput.setAttribute('name', 'stripeToken');
-                    hiddenInput.setAttribute('value', token.id);
-                    form.appendChild(hiddenInput);
+                const hiddenInput = document.createElement('input');
+                hiddenInput.setAttribute('type', 'hidden');
+                hiddenInput.setAttribute('name', 'stripeToken');
+                hiddenInput.setAttribute('value', token.id);
+                form.appendChild(hiddenInput);
 
-                    const hiddenBookingId = document.createElement('input');
-                    hiddenBookingId.setAttribute('type', 'hidden');
-                    hiddenBookingId.setAttribute('name', 'item_id');
-                    hiddenBookingId.setAttribute('value', document.querySelector('input[name="item_id"]').value);
-                    form.appendChild(hiddenitemId);
-
-                    form.submit();
-                }
-            });
+                form.submit();
+            }
         });
+    });
     </script>
 @endsection

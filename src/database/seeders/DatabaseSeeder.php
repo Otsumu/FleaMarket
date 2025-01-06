@@ -4,6 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use App\Models\User;
+use App\Models\Item;
+use App\Models\Payment;
+use App\Models\Comment;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,6 +22,14 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(ItemsTableSeeder::class);
 
-        \App\Models\User::factory(10)->create();
+        Comment::factory(10)->create([
+            'user_id' => User::inRandomOrder()->first()->id,
+            'item_id' => Item::inRandomOrder()->first()->id
+        ]);
+        Payment::factory(10)->create([
+            'user_id' => User::inRandomOrder()->first()->id,
+            'item_id' => Item::inRandomOrder()->first()->id
+        ]);
+        User::factory(10)->create();
     }
 }

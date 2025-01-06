@@ -67,12 +67,30 @@ class ItemController extends Controller
     }
 
     public function toggleFavorite($itemId) {
-        $user = auth()->user();
-        $item = Item::find($itemId);
-
-        $item->favorites()->toggle($user->id);
-
-        return response()->json(['favorite_count' => $item->favorites()->count()]);
+        try {
+            $user = auth()->user();
+            $item = Item::findOrFail($itemId);
+            $item->favorites()->toggle($user->id);
+            $count = $item->favorites()->count();
+            return response()->json([
+                'status' => 'success',
+                'favorite_count' => $count
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Item not found'
+            ], 404);
+        } catch (\Exception $e) {
+            \Log::error('Favorite toggle error:', [
+                'error' => $e->getMessage(),
+                'item_id' => $itemId
+            ]);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to update favorite'
+            ], 500);
+        }
     }
 
     public function getFavorites() {
@@ -144,30 +162,30 @@ class ItemController extends Controller
     }
 
     public function purchase(PurchaseRequest $request, $item_id) {
-        \Log::info('Purchase method:', ['payment_method' => $request->input('payment_method')]);
         $item = Item::findOrFail($item_id);
-
         if ($item->status === 'soldout') {
-            return redirect()->route('item.detail', ['item_id' => $item->id])
+            return redirect()
+                ->route('item.detail', $item_id)
                 ->with('error', 'この商品はすでに売り切れです。');
         }
 
-        $user = auth()->user();
-        $paymentMethod = $request->input('payment_method', 'credit_card');
+        try {
+            Purchase::create([
+                'user_id' => auth()->id(),
+                'item_id' => $item->id,
+                'payment_method' => $request->payment_method,
+            ]);
 
-        Purchase::create([
-            'user_id' => $user->id,
-            'item_id' => $item->id,
-            'payment_method' => $paymentMethod,
-        ]);
+            $item->update(['status' => 'soldout']);
 
-        $item->status = 'soldout';
-        $item->save();
-
-        if ($paymentMethod === 'convenience_store') {
-            return redirect()->route('item.detail', ['item_id' => $item->id])
+            return redirect()
+                ->route('item.detail', $item_id)
                 ->with('success', '購入が完了しました！');
+        } catch (\Exception $e) {
+            \Log::error('Purchase failed:', ['error' => $e->getMessage()]);
+            return redirect()
+                ->route('item.detail', $item_id)
+                ->with('error', '購入処理に失敗しました。');
         }
-        return redirect()->route('item.detail', ['item_id' => $item->id])->with('success', '購入が完了しました！');
     }
 }

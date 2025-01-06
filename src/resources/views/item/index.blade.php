@@ -72,7 +72,7 @@
             async function showFavoriteItems() {
                 try {
                     console.log('Fetching favorites...');
-                    const response = await fetch('/items/favorites', {
+                    const response = await fetch('/item/favorites', {
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',
                             'Accept': 'application/json',
@@ -97,7 +97,7 @@
                         <div class="shop__item">
                             <div class="item__image">
                                 <a href="${itemDetailPath.replace(':id', item.id)}">
-                                    <img src="${item.img_url.startsWith('http') ? item.img_url : '/storage/' + item.img_url}" 
+                                    <img src="${item.img_url.startsWith('http') ? item.img_url : '/storage/' + item.img_url}"
                                         alt="${item.name}"
                                         class="item__img">
                                 </a>

@@ -15,14 +15,13 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('item_id')->constrained()->onDelete('cascade');
             $table->string('stripe_payment_id');
             $table->integer('amount');
             $table->string('currency')->default('jpy');
-            $table->boolean('status')->default(false);
+            $table->enum('status', ['pending', 'succeeded', 'failed'])->default('pending');
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -33,6 +32,6 @@ class CreatePaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('_payments');
+        Schema::dropIfExists('payments');
     }
 }

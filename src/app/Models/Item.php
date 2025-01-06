@@ -35,4 +35,8 @@ class Item extends Model
     public function purchases() {
         return $this->hasMany(Purchase::class);
     }
+
+    public function payments(){
+        return $this->hasMany(Payment::class);
+    }
 }

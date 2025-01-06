@@ -8,6 +8,7 @@ use App\Http\Requests\ProfileRequest;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Purchase;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -95,8 +96,16 @@ class UserController extends Controller
     public function myPage() {
         $user = auth()->user();
         $items = Item::where('user_id', $user->id)->get();
-        $purchasedItems = Purchase::where('user_id', $user->id)
-            ->with('item')->get();
+        $purchasedItemsFromPurchase = Purchase::where('user_id', $user->id)
+            ->with(['item' => function($query) {
+                $query->select('id', 'name', 'img_url');}])->get();
+
+        $purchasedItemsFromPayment = Payment::where('user_id', $user->id)
+            ->with(['item' => function($query) {
+                $query->select('id', 'name', 'img_url');}])->get();
+
+        $purchasedItems = $purchasedItemsFromPurchase->concat($purchasedItemsFromPayment)
+            ->sortByDesc('created_at');
 
         return view('user.myPage',compact('user','items','purchasedItems'));
     }
