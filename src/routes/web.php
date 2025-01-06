@@ -40,7 +40,7 @@ Route::prefix('user')->middleware('auth')->group(function () {
     Route::patch('/changeAddress/{item_id}',[UserController::class,'updateAddress'])->name('user.updateAddress');
 });
 
-Route::prefix('items')->middleware('auth')->group(function () {
+Route::prefix('item')->middleware('auth')->group(function () {
     Route::post('/{item_id}/comments', [ItemController::class, 'store'])->name('comments.store');
     Route::post('/{item_id}/toggle-favorite', [ItemController::class, 'toggleFavorite'])->name('favorite.toggle');
     Route::get('/favorites', [ItemController::class, 'getFavorites']);
@@ -51,6 +51,6 @@ Route::prefix('items')->middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/items/{id}/create', [PaymentController::class, 'create'])->name('create');
-    Route::post('/items/{id}/create', [PaymentController::class, 'store'])->name('payment.store');
+    Route::get('/item/{id}/create', [PaymentController::class, 'create'])->name('create');
+    Route::post('/item/{id}/create', [PaymentController::class, 'store'])->name('payment.store');
 });

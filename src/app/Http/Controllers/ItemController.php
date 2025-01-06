@@ -144,6 +144,7 @@ class ItemController extends Controller
     }
 
     public function purchase(PurchaseRequest $request, $item_id) {
+        \Log::info('Purchase method:', ['payment_method' => $request->input('payment_method')]);
         $item = Item::findOrFail($item_id);
 
         if ($item->status === 'soldout') {
@@ -164,9 +165,9 @@ class ItemController extends Controller
         $item->save();
 
         if ($paymentMethod === 'convenience_store') {
-            return redirect()->route('payment.convenience.store', ['item_id' => $item->id]);
+            return redirect()->route('item.detail', ['item_id' => $item->id])
+                ->with('success', '購入が完了しました！');
         }
-        return redirect()->route('item.detail', ['item_id' => $item->id])
-            ->with('success', '購入が完了しました！');
+        return redirect()->route('item.detail', ['item_id' => $item->id])->with('success', '購入が完了しました！');
     }
 }
