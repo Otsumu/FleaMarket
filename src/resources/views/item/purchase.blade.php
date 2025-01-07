@@ -87,50 +87,51 @@
 @section('js')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('paymentMethod').addEventListener('change', function() {
-        const selectedMethod = this.value;
-        const displayElement = document.querySelector('.payment-method-display');
-        if (selectedMethod === 'credit_card') {
-            displayElement.textContent = 'カード支払い';
-        } else if (selectedMethod === 'convenience_store') {
-            displayElement.textContent = 'コンビニ支払い';
-        }
-    });
+    const paymentMethodSelect = document.getElementById('paymentMethod');
+    const displayElement = document.querySelector('.payment-method-display');
+
+    if (paymentMethodSelect) {
+        paymentMethodSelect.addEventListener('change', function() {
+            const selectedMethod = this.value;
+            if (displayElement) {
+                if (selectedMethod === 'credit_card') {
+                    displayElement.textContent = 'カード支払い';
+                } else if (selectedMethod === 'convenience_store') {
+                    displayElement.textContent = 'コンビニ支払い';
+                }
+            }
+        });
+    }
 
     const itemId = {{ $item->id }};
 
     document.getElementById('purchaseForm').addEventListener('submit', function(e) {
         const paymentMethod = document.getElementById('paymentMethod').value;
 
-        console.log('Selected payment method:', paymentMethod);
-
         if (paymentMethod === 'credit_card') {
             e.preventDefault();
-            console.log('Redirecting to credit card flow...');
             window.location.href = `/item/${itemId}/create`;
         } else if (paymentMethod === 'convenience_store') {
-            console.log('Proceeding with convenience store payment...');
-            fetch(`/item/${itemId}/purchase`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({
-                    payment_method: paymentMethod
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('購入完了！');
-                    window.location.href = `/item/${itemId}`;
-                } else {
-                    console.error('購入処理に失敗しました');
-                }
-            })
-            .catch(error => {
-                console.error('エラー:', error);
-            });
+            e.preventDefault();
+
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/item/${itemId}/purchase`;
+
+            const csrfToken = document.createElement('input');
+            csrfToken.type = 'hidden';
+            csrfToken.name = '_token';
+            csrfToken.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            form.appendChild(csrfToken);
+
+            const paymentMethodInput = document.createElement('input');
+            paymentMethodInput.type = 'hidden';
+            paymentMethodInput.name = 'payment_method';
+            paymentMethodInput.value = paymentMethod;
+            form.appendChild(paymentMethodInput);
+
+            document.body.appendChild(form);
+            form.submit();
         }
     });
 });

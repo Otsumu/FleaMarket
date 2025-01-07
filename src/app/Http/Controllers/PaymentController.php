@@ -12,15 +12,17 @@ class PaymentController extends Controller
 {
     public function create($id) {
         $item = Item::findOrFail($id);
-        return view('create', compact('item'));
+        return view('create', [
+            'item' => $item,
+            'stripePublicKey' => config('services.stripe.key'),
+        ]);
     }
 
     public function store(Request $request) {
         $itemId = $request->input('item_id');
         $item = Item::findOrFail($itemId);
 
-        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         try {
             $charge = Charge::create([

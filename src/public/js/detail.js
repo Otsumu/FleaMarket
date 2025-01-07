@@ -48,10 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Error:', error);
-            // ユーザーへのエラー通知（オプション）
             alert('お気に入りの更新に失敗しました。');
         } finally {
-            // ボタンを再度有効化
             favoriteButton.disabled = false;
         }
     });

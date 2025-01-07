@@ -165,10 +165,9 @@ class ItemController extends Controller
         $item = Item::findOrFail($item_id);
         if ($item->status === 'soldout') {
             return redirect()
-                ->route('item.detail', $item_id)
+                ->route('item.detail', $item->id)
                 ->with('error', 'この商品はすでに売り切れです。');
         }
-
         try {
             Purchase::create([
                 'user_id' => auth()->id(),
@@ -179,12 +178,12 @@ class ItemController extends Controller
             $item->update(['status' => 'soldout']);
 
             return redirect()
-                ->route('item.detail', $item_id)
+                ->route('item.detail', $item->id)
                 ->with('success', '購入が完了しました！');
         } catch (\Exception $e) {
             \Log::error('Purchase failed:', ['error' => $e->getMessage()]);
             return redirect()
-                ->route('item.detail', $item_id)
+                ->route('item.detail', $item->id)
                 ->with('error', '購入処理に失敗しました。');
         }
     }
