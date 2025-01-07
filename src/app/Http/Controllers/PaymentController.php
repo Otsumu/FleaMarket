@@ -7,6 +7,7 @@ use Stripe\Stripe;
 use Stripe\Charge;
 use App\Models\Item;
 use App\Models\Payment;
+use App\Models\Purchase;
 
 class PaymentController extends Controller
 {
@@ -41,6 +42,12 @@ class PaymentController extends Controller
 
             $item->status = 'soldout';
             $item->save();
+
+            Purchase::create([
+                'user_id' => auth()->id(),
+                'item_id' => $request->item_id,
+                'payment_method' => 'credit_card',
+            ]);
 
             return redirect()->route('item.detail', $item->id)->with('success', '決済が完了しました！');
         } catch (\Stripe\Exception\CardException $e) {

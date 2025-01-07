@@ -89,7 +89,7 @@
                     console.log('Favorites data:', data);
 
                     if (!data.items || data.items.length === 0) {
-                        itemList.innerHTML = '<div class="no-items">お気に入りに登録された商品はありません</div>';
+                        itemList.innerHTML = '<div class="no-items" style="font-size: 20px; font-weight: bold;">お気に入りに登録された商品はありません</div>';
                         return;
                     }
 
@@ -110,7 +110,7 @@
                     `).join('');
                 } catch (error) {
                     console.error('Fetch error:', error);
-                    itemList.innerHTML = '<div class="error">データの取得に失敗しました</div>';
+                    itemList.innerHTML = '<div class="error" style="font-size: 20px; font-weight: bold;>データの取得に失敗しました</div>';
                 }
             }
 

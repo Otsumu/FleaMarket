@@ -101,15 +101,16 @@ class ItemController extends Controller
                 return response()->json(['message' => 'Unauthorized'], 401);
             }
 
-            $favoriteItems = Item::whereHas('favorites', function($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })->get();
+            $favoriteItems = $user->favorites()->get();
+
+            \Log::info('Favorite items:', $favoriteItems->toArray());
 
             return response()->json([
                 'items' => $favoriteItems,
             ]);
 
         } catch (\Exception $e) {
+            \Log::error('Error fetching favorites:', ['error' => $e->getMessage()]);
             return response()->json([
                 'message' => 'Error fetching favorites',
                 'error' => $e->getMessage()
@@ -119,6 +120,8 @@ class ItemController extends Controller
 
     public function search(Request $request) {
         $query = $request->input('query');
+
+        session(['search_query' => $query ]);
 
         $items = Item::where('name', 'LIKE', "%{$query}%")
                     ->orWhere('description', 'LIKE', "%{$query}%")

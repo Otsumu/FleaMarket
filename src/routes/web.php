@@ -28,8 +28,8 @@ Route::get('register', [RegisteredUserController::class, 'create'])->name('regis
 Route::post('register', [RegisteredUserController::class, 'store'])->name('auth.register');
 
 Route::get('/', [ItemController::class,'index'])->name('item.index');
-Route::get('/{item_id}', [ItemController::class, 'detail'])->name('item.detail');
 Route::get('/search', [ItemController::class, 'search'])->name('search');
+Route::get('/{item_id}', [ItemController::class, 'detail'])->name('item.detail');
 
 Route::prefix('user')->middleware('auth')->group(function () {
     Route::get('/editProfile', [UserController::class, 'edit'])->name('user.editProfile');
