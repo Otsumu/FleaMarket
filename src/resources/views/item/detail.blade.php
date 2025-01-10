@@ -61,10 +61,9 @@
         </div>
         <div class="second-info">
             <h3><strong>商品説明</strong></h3>
-            <p>カラー : グレー</p>
-            <p>新品<br>
-            商品の状態は状態は良好です、傷もありません。</p><br>
-            <p>購入後、即発送します。</p>
+            <p>{{ $item->description }}</p>
+            <p>{{ $item->color }}</p>
+            <p>{{ $item->condition }}</p>
             <h3 class="second"><strong>商品の情報</strong></h3>
             <p>カテゴリー :
                 @foreach(explode(',', $item->category) as $category)

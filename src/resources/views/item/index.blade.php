@@ -81,7 +81,13 @@
                     });
 
                     if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                        if (response.status === 401) {
+                            console.warn('Unauthorized access');
+                            itemList.innerHTML = '<div class="error" style="font-size: 20px; font-weight: bold;">ログインが必要です</div>';
+                        return;
+                        }
+
+                    throw new Error(`HTTP error! status: ${response.status}`);
                     }
 
                     console.log('Response received');
