@@ -32,7 +32,7 @@ class ItemFactory extends Factory
         $randomImage = $this->faker->randomElement($imageFiles);
 
         return [
-            'user_id' => User::inRandomOrder()->first()->id,
+            'user_id' => User::factory()->create()->id,
             'img_url' => 'images/' . $randomImage,
             'name' => $faker->randomElement([
                         'スポーツウェア',
