@@ -57,6 +57,9 @@
                 </div>
             @endforeach
         </div>
+        <div class="pagination-container" id="pagination-container">
+            {{ $items->links() }}
+        </div>
     </div>
 @endsection
 
@@ -67,7 +70,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded');
             const mylistTab = document.getElementById('mylist-tab');
+            const recommendTab = document.getElementById('recommend-tab');
             const itemList = document.querySelector('.item__list');
+            const paginationContainer = document.getElementById('pagination-container');
 
             async function showFavoriteItems() {
                 try {
@@ -84,15 +89,17 @@
                         if (response.status === 401) {
                             console.warn('Unauthorized access');
                             itemList.innerHTML = '<div class="error" style="font-size: 20px; font-weight: bold;">ログインが必要です</div>';
-                        return;
+                            return;
                         }
 
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                        throw new Error(`HTTP error! status: ${response.status}`);
                     }
 
                     console.log('Response received');
                     const data = await response.json();
                     console.log('Favorites data:', data);
+
+                    paginationContainer.style.display = 'none';
 
                     if (!data.items || data.items.length === 0) {
                         itemList.innerHTML = '<div class="no-items" style="font-size: 20px; font-weight: bold;">お気に入りに登録された商品はありません</div>';
@@ -116,7 +123,7 @@
                     `).join('');
                 } catch (error) {
                     console.error('Fetch error:', error);
-                    itemList.innerHTML = '<div class="error" style="font-size: 20px; font-weight: bold;>データの取得に失敗しました</div>';
+                    itemList.innerHTML = '<div class="error" style="font-size: 20px; font-weight: bold;">データの取得に失敗しました</div>';
                 }
             }
 
@@ -125,6 +132,14 @@
                     console.log('Mylist clicked');
                     e.preventDefault();
                     showFavoriteItems();
+                };
+            }
+
+            if (recommendTab) {
+                recommendTab.onclick = function(e) {
+                    e.preventDefault();
+                    paginationContainer.style.display = 'block';
+
                 };
             }
         });

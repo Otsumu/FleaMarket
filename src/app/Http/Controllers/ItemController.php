@@ -22,7 +22,8 @@ class ItemController extends Controller
         $user = Auth::user();
         $items = Item::when($user, function ($query) use ($user) {
             return $query->where('user_id', '!=', $user->id);
-        })->get();
+        })
+        ->orderBy('created_at', 'desc')->paginate(20);
 
         return view('item.index',compact('items'));
     }

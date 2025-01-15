@@ -170,3 +170,27 @@ main {
     margin-bottom: 5px;
     text-align: center;
 }
+
+.pagination {
+    font-size: 16px;
+    margin-top: 30px;
+}
+
+.pagination-container  {
+    margin: 30px 32%;
+}
+
+.pagination .page-link {
+    padding: 15px 20px;
+    font-size: 20px;
+}
+
+.pagination .page-link:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination .active .page-link {
+    background-color: rgb(63, 90, 242);
+    color: white;
+    border-color: rgb(63, 90, 242);
+}
