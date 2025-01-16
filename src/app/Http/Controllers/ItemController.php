@@ -188,7 +188,7 @@ class ItemController extends Controller
             \Log::error('Purchase failed:', ['error' => $e->getMessage()]);
             return redirect()
                 ->route('item.detail', $item->id)
-                ->with('error', '購入処理に失敗しました。');
+                ->with('error', '購入処理に失敗しました');
         }
     }
 }

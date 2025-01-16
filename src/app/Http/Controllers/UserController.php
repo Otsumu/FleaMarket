@@ -96,16 +96,12 @@ class UserController extends Controller
     public function myPage() {
         $user = auth()->user();
         $items = Item::where('user_id', $user->id)->get();
-        $purchasedItemsFromPurchase = Purchase::where('user_id', $user->id)
+        $purchasedItems = Purchase::where('user_id', $user->id)
             ->with(['item' => function($query) {
-                $query->select('id', 'name', 'img_url');}])->get();
-
-        $purchasedItemsFromPayment = Payment::where('user_id', $user->id)
-            ->with(['item' => function($query) {
-                $query->select('id', 'name', 'img_url');}])->get();
-
-        $purchasedItems = $purchasedItemsFromPurchase->concat($purchasedItemsFromPayment)
-            ->sortByDesc('created_at');
+                $query->select('id', 'name', 'img_url');
+            }])
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('user.myPage',compact('user','items','purchasedItems'));
     }

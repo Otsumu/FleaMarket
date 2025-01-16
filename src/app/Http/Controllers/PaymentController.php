@@ -28,7 +28,7 @@ class PaymentController extends Controller
             ->exists();
 
         if ($existingPurchase) {
-            return back()->withErrors(['payment' => 'この商品は既に購入済みです。']);
+            return back()->withErrors(['payment' => 'この商品は既に購入済みです']);
         }
 
         Stripe::setApiKey(config('services.stripe.secret'));
