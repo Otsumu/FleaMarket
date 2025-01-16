@@ -94,17 +94,20 @@ class ItemController extends Controller
         }
     }
 
-    public function getFavorites() {
+    public function getFavorites(Request $request) {
         try {
             $user = auth()->user();
+            $query = $request->input('query');
 
             if (!$user) {
                 return response()->json(['message' => 'Unauthorized'], 401);
             }
 
-            $favoriteItems = $user->favorites()->get();
-
-            \Log::info('Favorite items:', $favoriteItems->toArray());
+            $favoriteItems = $user->favorites()
+                ->when($query, function($q) use ($query) {
+                    return $q->where('items.name', 'LIKE', "%{$query}%");
+                })
+                ->get();
 
             return response()->json([
                 'items' => $favoriteItems,
@@ -126,7 +129,7 @@ class ItemController extends Controller
 
         $items = Item::where('name', 'LIKE', "%{$query}%")
                     ->orWhere('description', 'LIKE', "%{$query}%")
-                    ->get();
+                    ->paginate(20);
 
         return view('item.index', compact('items'));
     }

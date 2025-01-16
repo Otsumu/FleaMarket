@@ -77,13 +77,19 @@
             async function showFavoriteItems() {
                 try {
                     console.log('Fetching favorites...');
-                    const response = await fetch('/item/favorites', {
+                    paginationContainer.style.display = 'none';
+                    const searchQuery = new URLSearchParams(window.location.search).get('query');
+                    console.log('Search query:', searchQuery);
+
+                    const url = '/item/favorites' + (searchQuery ? `?query=${searchQuery}` : '');
+                    console.log('Fetching URL:', url);
+                    const response = await fetch(url, {
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',
                             'Accept': 'application/json',
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                        }
-                    });
+                    }
+            });
 
                     if (!response.ok) {
                         if (response.status === 401) {
@@ -98,8 +104,6 @@
                     console.log('Response received');
                     const data = await response.json();
                     console.log('Favorites data:', data);
-
-                    paginationContainer.style.display = 'none';
 
                     if (!data.items || data.items.length === 0) {
                         itemList.innerHTML = '<div class="no-items" style="font-size: 20px; font-weight: bold;">お気に入りに登録された商品はありません</div>';
@@ -132,14 +136,14 @@
                     console.log('Mylist clicked');
                     e.preventDefault();
                     showFavoriteItems();
+                    paginationContainer.style.display = 'none';
                 };
             }
 
             if (recommendTab) {
                 recommendTab.onclick = function(e) {
                     e.preventDefault();
-                    paginationContainer.style.display = 'block';
-
+                    paginationContainer.style.display = 'none';
                 };
             }
         });
