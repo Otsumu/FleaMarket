@@ -184,3 +184,54 @@ main {
     color: white;
     font-weight: bold;
 }
+
+@media (max-width: 768px) {
+    .header__center {
+        margin-left: 5px;
+        width: 50%;
+        padding: 10px;
+    }
+
+    .header__right {
+        display: flex;
+        justify-content: flex-start;
+        flex: 1;
+        margin-left: -15px;
+        font-size: 14px;
+    }
+    .nav-list {
+        flex: 1;
+        white-space: nowrap;
+    }
+
+    .nav-list li {
+        margin-right: 5px;
+    }
+
+    .nav-list li:last-child {
+        margin-right: 0;
+    }
+
+    .payment_method-check {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .payment_method-check tr {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 5px;
+        font-size: 14px;
+    }
+
+    .payment_method-check td {
+        display: block;
+        width: auto;
+        text-align: left;
+        padding: 5px;
+        font-size: 14px;
+    }
+}
