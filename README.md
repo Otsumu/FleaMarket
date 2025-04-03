@@ -39,7 +39,8 @@ http://15.168.189.199（現在閲覧不可）
 
 #### 決済機能 : Stripeを使用
 - 購入時に「クレジットカード決済」と「コンビニ決済」から選択可能。
-  - → [Stripe決済](http://localhost/views/create.blade.php)
+  - → [Stripe決済](http://localhost/purchase)
+  ![詳細画面](README/images/crerate.png)
 - **セキュリティ対策:**
   - Stripe の `PUBLIC_KEY`、`SECRET_KEY` は `.env.local`、`.env.prod` に記載。
   - `.env.prod` 内の AWS `ID` と `KEY` も同様に記載。
