@@ -39,7 +39,7 @@ http://15.168.189.199（現在閲覧不可）
 
 #### 決済機能 : Stripeを使用
 - 購入時に「クレジットカード決済」と「コンビニ決済」から選択可能。
-  - クレジット決済はStripeを採用しています。
+- クレジット決済はStripeを採用しています。
 ![詳細画面](README/images/create.png)
 - **セキュリティ対策:**
   - Stripe の `PUBLIC_KEY`、`SECRET_KEY` は `.env.local`、`.env.prod` に記載。
