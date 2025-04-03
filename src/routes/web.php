@@ -54,7 +54,4 @@ Route::prefix('item')->middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/item/{id}/create', [PaymentController::class, 'create'])->name('create');
     Route::post('/item/{id}/create', [PaymentController::class, 'store'])->name('payment.store');
-    Route::get('/purchase', function () {
-        return view('create');
-    });
 });

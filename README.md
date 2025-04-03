@@ -21,7 +21,7 @@ http://15.168.189.199（現在閲覧不可）
 #### 管理画面 : ユーザー登録・ログインページ
 - [会員登録](http://localhost/register)
 - [ログイン](http://localhost/login)<br>
-  ※ メール認証を導入し、安全なログイン・ログアウト機能を提供。
+  ※ メール認証を導入し、安全なログイン・ログアウト機能を提供。<br>
   ※ さらに、Fortify を導入することで、より強固な認証を実現。
 
 #### 商品情報 : 販売中の商品一覧や詳細
@@ -39,7 +39,8 @@ http://15.168.189.199（現在閲覧不可）
 
 #### 決済機能 : Stripeを使用
 - 購入時に「クレジットカード決済」と「コンビニ決済」から選択可能。
-  ![詳細画面](README/images/create.png)
+- クレジット決済はStripeを採用しています。
+![詳細画面](README/images/create.png)
 - **セキュリティ対策:**
   - Stripe の `PUBLIC_KEY`、`SECRET_KEY` は `.env.local`、`.env.prod` に記載。
   - `.env.prod` 内の AWS `ID` と `KEY` も同様に記載。
