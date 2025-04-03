@@ -106,33 +106,37 @@
     const itemId = {{ $item->id }};
 
     document.getElementById('purchaseForm').addEventListener('submit', function(e) {
-        const paymentMethod = document.getElementById('paymentMethod').value;
+    e.preventDefault();
 
-        if (paymentMethod === 'credit_card') {
-            e.preventDefault();
-            window.location.href = `/item/${itemId}/create`;
-        } else if (paymentMethod === 'convenience_store') {
-            e.preventDefault();
+    const paymentMethod = document.getElementById('paymentMethod').value;
 
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = `/item/${itemId}/purchase`;
+    if (paymentMethod === 'credit_card') {
+        const form = document.createElement('form');
+        form.method = 'GET';
+        form.action = `/item/${itemId}/create`;
 
-            const csrfToken = document.createElement('input');
-            csrfToken.type = 'hidden';
-            csrfToken.name = '_token';
-            csrfToken.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            form.appendChild(csrfToken);
+        document.body.appendChild(form);
+        form.submit();
+    } else if (paymentMethod === 'convenience_store') {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/item/${itemId}/purchase`;
 
-            const paymentMethodInput = document.createElement('input');
-            paymentMethodInput.type = 'hidden';
-            paymentMethodInput.name = 'payment_method';
-            paymentMethodInput.value = paymentMethod;
-            form.appendChild(paymentMethodInput);
+        const csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = '_token';
+        csrfToken.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        form.appendChild(csrfToken);
 
-            document.body.appendChild(form);
-            form.submit();
-        }
+        const paymentMethodInput = document.createElement('input');
+        paymentMethodInput.type = 'hidden';
+        paymentMethodInput.name = 'payment_method';
+        paymentMethodInput.value = paymentMethod;
+        form.appendChild(paymentMethodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
     });
 });
 </script>
